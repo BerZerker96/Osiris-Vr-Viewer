@@ -1,5 +1,3 @@
-<img width="1584" height="672" alt="Gemini_Generated_Image_egc5oregc5oregc5" src="https://github.com/user-attachments/assets/d2a39860-3cc2-45d4-b0a6-72ee05290a14" />
-
 # Osiris VR Viewer
 
 ### A full-resolution OpenXR stereoscopic 3D viewer with screen geometry, head-tracking output, and a real-time tuning GUI.
@@ -62,7 +60,7 @@ The runtime probes every 10 seconds; when a `geo-11` game starts, the viewer hot
 4. **Half-TAB** — half-height top-and-bottom
 5. **Full-TAB** — full-height top-and-bottom
 6. **Line-Interlaced** — alternates source eye per scanline (passive 3D TVs, fallback for runtimes that degrade to mono)
-7. **Checkerboard 3D** — full-frame source with parity-exact demux + 4-cardinal-neighbor average for SuperDepth3D's checkerboard output
+7. **Checkerboard 3D** — full-frame source with parity-exact demux + 4-cardinal-neighbor average for checkerboard output
 
 ### 📐 Screen Shapes
 
@@ -120,7 +118,7 @@ Convert head movement into OS mouse cursor motion to drive 3DoF camera control i
 1. **Relative (`SendInput`)** — Uses `MOUSEEVENTF_MOVE` with `MOUSEEVENTF_MOVE_NOCOALESCE`. Reaches Win32-message games and most raw-input games (modern FPS, racing sims).
 2. **Absolute (`SetCursorPos`)** — Tracks a virtual cursor and sets it absolutely each frame. Reaches games that poll `GetCursorPos` (Witcher 3 with Hardware Cursor OFF, older RPGs, point-and-click titles).
 3. **Both** *(default)* — Sends through both paths simultaneously. Maximum compatibility.
-4. **Interception mode ------- Universal 3DOF for all games , requires interception driver   https://github.com/oblitum/Interception
+4. **Interception mode** ------- Universal 3DOF for all games , requires interception driver   https://github.com/oblitum/Interception
 
 
 ### 📡 6DoF UDP over Network
@@ -171,17 +169,6 @@ Captures the current left-eye VR view to a PNG file in the root folder. Bindable
 2. `presets/default.json` is hot-reloaded by the running viewer when overwritten by the GUI
 3. Forward-compatible: old preset files load cleanly into newer builds via `#[serde(default)]` defaults on every field
 
-### 🎨 GUI Polish
-
-1. 🎬 ⚙ 💾 📐 🖼 ↔ 🎢 🖱 📡 ⌨ — every section has a fitting symbol
-2. Custom banner image in the title bar
-3. Three-section accent system: blue (rendering), purple (head tracking), yellow (hotkeys)
-4. Compact layout — every slider/widget kept full size; only padding tightened
-5. Dark theme with white-text-on-color section headers
-6. Native window icon embedded via `winres`
-
----
-
 ## ⚙️ Build
 
 Requires **Rust 1.74+** and the **Vulkan SDK** on Windows.
@@ -216,14 +203,10 @@ Right-click the tray icon for: Recenter, Screenshot, Toggle Head-Lock, Cycle Ste
 
 ## 🙏 Credits
 
-- **[VRScreenCap](https://github.com/artumino/VRScreenCap)** by [@artumino](https://github.com/artumino) — the original architecture this fork is built on
+- **[VRScreenCap](https://github.com/artumino/VRScreenCap)** by [@artumino](https://github.com/artumino) — the original architecture this software is built on
 - **[geo-11](https://www.helixmod.com/)** — stereoscopic 3D mod platform
 - **[OpenTrack](https://github.com/opentrack/opentrack)** — wire format reference for the 6DoF UDP output
 - **[SuperDepth3D](https://reshade.me/forum/shader-presentation/3935-superdepth3d)** — line interlaced and checkerboard 3D output reference
-- **[ https://github.com/oblitum/Interception** —  driver to enable universal 3DOF used for mouse emulation
+- **[Interception Driver] https://github.com/oblitum/Interception** —  driver to enable universal 3DOF used for mouse emulation
 ---
-
-### Built for VR enthusiasts who want full control of their stereoscopic 3D playback
-
-🦀 Made with Rust • 🥽 Powered by OpenXR • ⚡ Rendered with wgpu
 
