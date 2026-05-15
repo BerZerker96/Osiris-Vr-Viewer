@@ -1,3 +1,5 @@
+<img width="1584" height="672" alt="Gemini_Generated_Image_egc5oregc5oregc5" src="https://github.com/user-attachments/assets/5dbc5258-f263-4559-a5e0-68bbe331593f" />
+
 # Osiris VR Viewer
 
 ### A full-resolution OpenXR stereoscopic 3D viewer with screen geometry, head-tracking output, and a real-time tuning GUI.
