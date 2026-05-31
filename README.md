@@ -1,12 +1,24 @@
-<img width="1584" height="672" alt="Gemini_Generated_Image_egc5oregc5oregc5" src="https://github.com/user-attachments/assets/5dbc5258-f263-4559-a5e0-68bbe331593f" />
+<div align="center">
+
+<img src="assets/logo.ico" width="120" alt="Osiris VR Viewer logo" />
 
 # Osiris VR Viewer
 
-### A full-resolution OpenXR stereoscopic 3D viewer with screen geometry, head-tracking output, and a real-time tuning GUI.
+### A full-resolution OpenXR stereoscopic 3D viewer with VHT-grade screen geometry, head-tracking output, and a real-time tuning GUI.
+
+[![Platform](https://img.shields.io/badge/platform-Windows-0078D4?logo=windows&logoColor=white)](https://www.microsoft.com/windows)
+[![Built with Rust](https://img.shields.io/badge/built%20with-Rust-CE422B?logo=rust&logoColor=white)](https://www.rust-lang.org/)
+[![Graphics](https://img.shields.io/badge/wgpu-Vulkan-AC162C?logo=vulkan&logoColor=white)](https://wgpu.rs/)
+[![XR Runtime](https://img.shields.io/badge/OpenXR-1.0-1F6FEB)](https://www.khronos.org/openxr/)
+[![Status](https://img.shields.io/badge/version-0.6.0--dev-success)](#)
+
+</div>
+
+---
 
 ## 📖 About
 
-**Osiris VR Viewer** is a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@artumino](https://github.com/artumino), heavily extended into a full-featured stereoscopic 3D playback platform for OpenXR runtimes 
+**Osiris VR Viewer** is a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@artumino](https://github.com/artumino), heavily extended into a full-featured stereoscopic 3D playback platform for OpenXR runtimes (SteamVR, Oculus, Virtual Desktop, Varjo, Pimax, etc.).
 
 It captures stereoscopic 3D content from `geo-11` / `Katanga` mods, desktop duplication, or any side-by-side / top-and-bottom source, and projects it into VR on a curved screen, sphere, box room, or fishbowl-style mesh, with per-eye supersampling, image post-processing, simulated 6DoF parallax, and head-tracking output to drive games and 6DoF mods over the network.
 
@@ -19,12 +31,26 @@ Built on:
 
 ---
 
+## ✅ Requirements
+
+Osiris is a self-contained pair of executables — there is no installer. Drop the two `.exe` files into the same folder and run. For it to work on any PC, the target machine needs:
+
+- **Windows 10 or 11 (64-bit).**
+- **An installed and active OpenXR runtime** — e.g. SteamVR or the Pimax OpenXR runtime. The viewer has the OpenXR loader built in, but it still needs a runtime to talk to your headset. Set your desired runtime as the active/default OpenXR runtime before launching. Any existing PCVR setup already has this.
+- **Up-to-date GPU drivers with Vulkan support** — rendering runs on Vulkan, which ships with current NVIDIA / AMD / Intel drivers. A modern GPU is recommended (developed and tested on an RTX 4080 + Pimax).
+- **Microsoft Visual C++ Redistributable (x64), 2015–2022.** This ships with essentially every modern game and is already present on any gaming PC, but on a fresh Windows install you may need it — grab the latest "vc_redist.x64.exe" from Microsoft if the app fails to start.
+- **A stereoscopic 3D source** — a `geo-11` / `Katanga` mod (or the SuperVrExport / GeoVrExport ReShade addon) injected into your game, or any SBS / TAB content via desktop duplication.
+
+> Put the two exes in the same folder, keep a `presets/` folder beside them for saved configurations, and install the geo-11 / addon DLL into your game as that mod instructs.
+
+---
+
 ## 🚀 Highlights
 
-- 🎬 **9 stereo modes** including a true Checkerboard 3D demux and Line Interlaced
+- 🎬 **9 stereo modes** including a true Checkerboard 3D demux for SuperDepth3D output
 - 🌐 **3 screen shapes** — curved sphere, box theatre, fisheye dome — each with mesh-level extrusion control
 - 🖱️ **Mouse emulation** — drive mouse-look games with head movement (3 compatibility modes)
-- 📡 **6DoF UDP streaming** — OpenTrack wire format, drives community 6DoF mods (https://github.com/itsloopyo?tab=repositories)
+- 📡 **6DoF UDP streaming** — OpenTrack wire format, drives community 6DoF mods (RE Requiem, etc.)
 - 🎢 **Simulated 6DoF** — parallax for flat 3D content, no game-side support required
 - ⌨️ **Global hotkeys** — every action bindable, works while minimized
 - 💾 **Live presets** — save/load full configurations, hot-reloaded by the viewer
@@ -39,7 +65,7 @@ Two binaries, one workspace, shared wire format:
 | Binary | Purpose |
 |---|---|
 | 🥽 **`osiris-vr-viewer.exe`** | The runtime. Tray-icon only — no desktop window. Starts an OpenXR session and renders captured stereo content onto the configured screen geometry in VR. |
-| 🎛️ **`osiris-gui.exe`** | Main control panel. Dark theme with blue / purple / yellow section accents. Real-time sliders for everything. Writes presets next to the viewer; the viewer hot-reloads. |
+| 🎛️ **`osiris-gui.exe`** | Optional control panel. Dark theme with blue / purple / yellow section accents. Real-time sliders for everything. Writes presets next to the viewer; the viewer hot-reloads. |
 
 ---
 
@@ -62,7 +88,7 @@ The runtime probes every 10 seconds; when a `geo-11` game starts, the viewer hot
 4. **Half-TAB** — half-height top-and-bottom
 5. **Full-TAB** — full-height top-and-bottom
 6. **Line-Interlaced** — alternates source eye per scanline (passive 3D TVs, fallback for runtimes that degrade to mono)
-7. **Checkerboard 3D** — full-frame source with parity-exact demux + 4-cardinal-neighbor average for checkerboard output
+7. **Checkerboard 3D** — full-frame source with parity-exact demux + 4-cardinal-neighbor average for SuperDepth3D's checkerboard output
 
 ### 📐 Screen Shapes
 
@@ -120,12 +146,12 @@ Convert head movement into OS mouse cursor motion to drive 3DoF camera control i
 1. **Relative (`SendInput`)** — Uses `MOUSEEVENTF_MOVE` with `MOUSEEVENTF_MOVE_NOCOALESCE`. Reaches Win32-message games and most raw-input games (modern FPS, racing sims).
 2. **Absolute (`SetCursorPos`)** — Tracks a virtual cursor and sets it absolutely each frame. Reaches games that poll `GetCursorPos` (Witcher 3 with Hardware Cursor OFF, older RPGs, point-and-click titles).
 3. **Both** *(default)* — Sends through both paths simultaneously. Maximum compatibility.
-4. **Interception mode** ------- Universal 3DOF for all games , requires interception driver   https://github.com/oblitum/Interception
 
+Sub-pixel accumulator preserves slow head movements that would otherwise truncate to 0 px. Sensitivity and mouse-speed sliders independently tune response.
 
 ### 📡 6DoF UDP over Network
 
-Stream the head pose to any UDP listener as 48-byte packets in **OpenTrack wire format** (6 little-endian f64: x, y, z in cm, yaw, pitch, roll in degrees). Drives community 6DoF mods by **(itsloopyo)** https://github.com/itsloopyo?tab=repositories
+Stream the head pose to any UDP listener as 48-byte packets in **OpenTrack wire format** (6 little-endian f64: x, y, z in cm, yaw, pitch, roll in degrees). Drives community 6DoF mods like the RE Requiem head-tracking mod, REFramework integrations, or any OpenTrack-aware receiver.
 
 1. ⚙️ Configurable target IP and port (default `127.0.0.1:4242`)
 2. 🔄 **Per-axis flips** — X, Y, Z, Yaw, Pitch, Roll — invert any axis to match game conventions
@@ -163,13 +189,62 @@ Anchors the screen to the user's head pose every frame — full follow on all 3 
 
 ### 📷 Screenshot
 
-Captures the current left-eye VR view to a PNG file in the root folder. Bindable to a hotkey for in-VR captures.
+Captures the current left-eye VR view to a PNG file in the presets folder. Bindable to a hotkey for in-VR captures.
 
 ### 💾 Presets
 
 1. Save / load full configurations as JSON next to the viewer
 2. `presets/default.json` is hot-reloaded by the running viewer when overwritten by the GUI
 3. Forward-compatible: old preset files load cleanly into newer builds via `#[serde(default)]` defaults on every field
+
+### 🎨 GUI Polish
+
+1. 🎬 ⚙ 💾 📐 🖼 ↔ 🎢 🖱 📡 ⌨ — every section has a fitting symbol
+2. Custom banner image in the title bar
+3. Three-section accent system: blue (rendering), purple (head tracking), yellow (hotkeys)
+4. Compact layout — every slider/widget kept full size; only padding tightened
+5. Dark theme with white-text-on-color section headers
+6. Native window icon embedded via `winres`
+
+---
+
+## 🧱 Architecture
+
+```
+┌─────────────────────┐     SHM (POD struct, ~1 KB)     ┌──────────────────────┐
+│   osiris-gui.exe    │ ◄──────────────────────────────► │ osiris-vr-viewer.exe │
+│  (egui control UI)  │      LiveParams v24              │   (OpenXR runtime)   │
+└─────────────────────┘                                  └──────────────────────┘
+         │                                                          │
+         ▼                                                          ▼
+   presets/*.json                                            ┌──────────────┐
+   hotkey bindings                                           │   Loaders:   │
+   live config                                               │   Katanga →  │
+                                                             │   DesktopDup │
+                                                             │   → captrs → │
+                                                             │   Blank      │
+                                                             └──────┬───────┘
+                                                                    │
+                                                                    ▼
+                                                             ┌──────────────┐
+                                                             │ wgpu / Vulkan│
+                                                             │  multiview   │
+                                                             │  renderer    │
+                                                             └──────┬───────┘
+                                                                    │
+                                                                    ▼
+                                                             ┌──────────────┐
+                                                             │   OpenXR     │
+                                                             │   Compositor │
+                                                             └──────────────┘
+```
+
+- **`osiris-shared`** crate: wire format for SHM (`LiveParams` struct, version-checked)
+- **`osiris-gui`**: egui app with live preview of all settings
+- **`osiris-vr-viewer`**: tray-only runtime, hot-reloads `LiveParams` from SHM each frame
+- All inputs and settings flow GUI → SHM → viewer with version handshake and atomic updates
+
+---
 
 ## ⚙️ Build
 
@@ -189,26 +264,59 @@ Built binaries land in `target/release/`. The GUI's app icon is embedded via `wi
 
 ### Quick Start
 
-1. Launch `osiris-vr-viewer.exe` — appears as a tray icon , with  the auto Launch of  `osiris-gui.exe` as a task bar app
-2. Pick a stereo mode and screen shape
-3. Don your headset — the viewer auto-detects available capture sources and renders
+1. Launch `osiris-vr-viewer.exe` — appears as a tray icon
+2. Launch `osiris-gui.exe` — opens the control panel
+3. Pick a stereo mode and screen shape
+4. Don your headset — the viewer auto-detects available capture sources and renders
 
 ### Tray Menu
 
 Right-click the tray icon for: Recenter, Screenshot, Toggle Head-Lock, Cycle Stereo Mode, Cycle Screen Shape, Quit.
 
+### Mouse Emulation Setup
+
+1. Toggle **Enable mouse emulation** in the GUI's purple Mouse Emulation section
+2. Pick a compatibility mode:
+   - **Both** for first-time use (works in most games)
+   - **Relative** if the game has rapid camera over-rotation in Both mode
+   - **Absolute** if the game ignores Relative entirely (Witcher 3 hardware-cursor-off)
+3. Tune Sensitivity and Mouse speed to taste
+
+### 6DoF UDP Setup (RE Requiem mod example)
+
+1. In the game's mod config, set OpenTrack listener to `127.0.0.1:4242`
+2. In Osiris GUI's purple **6DOF MODS** section, enable the UDP stream
+3. Verify IP is `127.0.0.1` and port is `4242`
+4. If any axis goes the wrong way, toggle its **Axis flip** checkbox
+5. Tune **Rotational gains** and **Position gains** to match game scale
+
+---
 
 ## 📋 Tested
 
-- ✅ OpenXR runtime
+- ✅ SteamVR / OpenXR runtime
+- ✅ Oculus / Meta Quest Link
+- ✅ Virtual Desktop (OpenXR)
+- ✅ Varjo runtime
+- ✅ Pimax PiTool / OpenXR
+- ✅ Mouse emulation: Skyrim VR (mod), Forza Horizon, Witcher 3 (HW cursor off — Absolute mode)
+- ✅ UDP 6DoF: RE Requiem mod, REFramework
 
+---
 
 ## 🙏 Credits
 
-- **[VRScreenCap](https://github.com/artumino/VRScreenCap)** by [@artumino](https://github.com/artumino) — the original architecture this software is built on
+- **[VRScreenCap](https://github.com/artumino/VRScreenCap)** by [@artumino](https://github.com/artumino) — the original architecture this fork is built on
 - **[geo-11](https://www.helixmod.com/)** — stereoscopic 3D mod platform
 - **[OpenTrack](https://github.com/opentrack/opentrack)** — wire format reference for the 6DoF UDP output
-- **[SuperDepth3D](https://reshade.me/forum/shader-presentation/3935-superdepth3d)** — line interlaced and checkerboard 3D output reference
-- **[Interception Driver] https://github.com/oblitum/Interception** —  driver to enable universal 3DOF used for mouse emulation
+- **[SuperDepth3D](https://reshade.me/forum/shader-presentation/3935-superdepth3d)** — checkerboard 3D output reference
+
 ---
 
+<div align="center">
+
+### Built for VR enthusiasts who want full control of their stereoscopic 3D playback
+
+🦀 Made with Rust • 🥽 Powered by OpenXR • ⚡ Rendered with wgpu
+
+</div>
