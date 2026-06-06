@@ -4,7 +4,7 @@
 
 # Osiris VR Viewer
 
-### A full-resolution OpenXR stereoscopic 3D viewer with VHT-grade screen geometry, head-tracking output, and a real-time tuning GUI.
+### A full-resolution OpenXR 3D viewer made for gaming with stereoscopic 3D mods — curved screen geometry, head-tracking output, and a real-time tuning GUI.
 
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D4?logo=windows&logoColor=white)](https://www.microsoft.com/windows)
 [![Built with Rust](https://img.shields.io/badge/built%20with-Rust-CE422B?logo=rust&logoColor=white)](https://www.rust-lang.org/)
@@ -131,7 +131,7 @@ Each shape has its own X/Y size, X/Y curvature, head-lock following, a **concave
 Fill the periphery beyond the source rectangle for a more immersive, wrap-around feel:
 
 - **Expansion Stretch** — periphery pixels sample stretched content from the rim inward. Two sliders: how far the stretch reaches, and how deep into the image it pulls from.
-- **Mesh Forward-Extrusion** — the periphery physically curls toward (or away from) you in 3D — the classic VHT fishbowl. Strength + direction sliders.
+- **Mesh Forward-Extrusion** — the periphery physically curls toward (or away from) you in 3D — a true wrap-around fishbowl effect. Strength + direction sliders.
 - **Edge Stretch / Extend / Expand** — simpler mirror-and-extend fillers for the outer ring.
 - **Hybrid Immersion** — an even rim-stretch with an optional **rear-360 wrap** (stretch, direction, dim, and motion-fade controls) for maximum coverage.
 
