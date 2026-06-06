@@ -90,7 +90,6 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 1. **Katanga / geo-11** — the shared 3D texture from a geo-11 game, captured directly with no extra copy.
 2. **Desktop Duplication** — captures the Windows desktop for non-Katanga sources (e.g. SuperDepth3D / Geo3D via ReShade, if you're not using the VRExport shared texture).
 3. **Desktop capture (Linux/Unix builds).**
-4. **Blank** — a grey fallback when nothing is attached.
 
 When a geo-11 game starts, the viewer **hot-swaps** to the full-res Katanga source automatically — no restart — and **reconnects seamlessly** if the game changes the shared texture mid-session. On game exit it falls back to the desktop on its own.
 
@@ -120,7 +119,6 @@ Each shape has its own X/Y size, X/Y curvature, head-lock following, a **concave
 - **Dehaze / Clarity** — local-contrast lift (0–10).
 - **Katanga Filters** — a one-toggle "stronger image" set (extra CAS / dehaze / clarity) that only kicks in on a live Katanga source, stacked on top of your normal settings. Great for instantly waking up a dull game image; toggle it with a hotkey.
 - **Resampling filters** — **Bilinear**, **Bicubic**, and **Lanczos**, each a blend slider. ⚠️ *Bicubic and especially Lanczos are GPU-heavy — see [Performance](#-performance--tuning).*
-- **FSR1 upscale** — render lower and upscale for more speed (off by default; needs a restart).
 - **Flip / swap per eye** — fix mirrored or swapped sources.
 - **Supersampling** — render above native for extra clarity. ⚠️ *Very heavy — recommended max **1.20**.*
 
@@ -179,8 +177,6 @@ Turns head **rotation** (yaw / pitch / roll) into a small position shift with pe
 - **Optical flow** — motion extrapolation (sub-pixel, framerate-independent).
 - **Temporal blend** — smooths frame-to-frame transitions.
 - **Frame pacing** — submits within a target slice of the frame.
-- **VSync mode** — Default / Off / On / Adaptive / Adaptive Half-Refresh.
-- **FPS limit** — optional cap.
 - **Pose prediction (ms)** — extra prediction to reduce drag/flicker on some headsets (see [Pimax notes](#-pimax-users--fixing-flicker)).
 
 ---
@@ -357,14 +353,11 @@ build.bat clean      # or: cargo build --release
 - **[Geo3D-Installer](https://github.com/Flugan/Geo3D-Installer)** by [@Flugan](https://github.com/Flugan)
 - **[SuperDepth3D / Depth3D](https://github.com/BlueSkyDefender/Depth3D)** by [@BlueSkyDefender](https://github.com/BlueSkyDefender)
 - **[wiz3D](https://github.com/effcol/wiz3D)** by [@effcol](https://github.com/effcol)
-- **[Super-VRExport-Addon](https://github.com/BerZerker96/Super-VRExport-Addon)** & **[DS4WINDOWS — OSIRIS VR](https://github.com/BerZerker96/DS4WINDOWS---OSIRS-VR)** by [@BerZerker96](https://github.com/BerZerker96)
 - **[OpenTrack](https://github.com/opentrack/opentrack)** — wire format reference for the 6DoF UDP output
 
 ---
 
 <div align="center">
-
-### Built for VR enthusiasts who want full control of their stereoscopic 3D playback
 
 🦀 Made with Rust • 🥽 Powered by OpenXR • ⚡ Rendered with wgpu
 
