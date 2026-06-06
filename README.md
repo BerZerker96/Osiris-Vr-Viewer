@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="1584" height="672" alt="Vbanner" src="https://github.com/user-attachments/assets/7fcddeaa-6e38-4fb1-a87b-6d91ed12c87b" />
+<img src="assets/github-banner.jpg" alt="Osiris VR Viewer" width="100%" />
 
 # Osiris VR Viewer
 
@@ -28,6 +28,8 @@ It's a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@
 |---|---|
 | 🥽 **`osiris-vr-viewer.exe`** | The viewer. Lives in the system tray (no window) and renders your 3D content in VR. |
 | 🎛️ **`osiris-gui.exe`** | The control panel. Every setting is a live slider — changes apply within one VR frame. Saves presets the viewer reads instantly. |
+
+> 🔗 **The two are linked.** Launching the GUI auto-starts the viewer, and **closing the GUI control panel also closes the viewer** — the GUI sends a clean shutdown, then makes sure the viewer process exits. So just close the GUI when you're done; there's no separate viewer to quit.
 
 ---
 
@@ -193,11 +195,12 @@ Nudges the screen automatically **when head-lock turns on**, and reverts when it
 
 ### 🖱️ Mouse emulation
 
-Turn head movement into mouse-cursor motion for mouse-look games (Forza, Skyrim, Witcher 3, etc.). Three compatibility modes:
+Turn head movement into mouse-cursor motion for mouse-look games (Forza, Skyrim, Witcher 3, etc.). Four compatibility modes:
 
 - **Relative** — reaches most modern FPS and racing sims.
 - **Absolute** — for games that read the cursor position directly (e.g. Witcher 3 with Hardware Cursor off, older RPGs, point-and-click).
-- **Both** *(default)* — sends both for maximum compatibility.
+- **Both** *(default)* — sends both user-mode paths for maximum compatibility.
+- **Interception** — driver-level input that works in **all** games, including ones that ignore user-mode injection. Requires the free **[Interception driver](https://github.com/oblitum/Interception/releases)** (one-time install + reboot).
 
 Sensitivity and speed sliders tune the response; a sub-pixel accumulator keeps slow movements from being lost.
 
@@ -217,6 +220,8 @@ Tunable: sensitivity, deadzone, max angle, invert X/Y, smoothness, and X/Y speed
 ### 📡 6DoF UDP output (for 6DoF mods)
 
 Streams your head pose in **OpenTrack format** to any UDP listener, to drive community 6DoF mods (RE Requiem head-tracking, REFramework, or any OpenTrack-aware receiver).
+
+> 🔗 This section is built specifically for the community 6DoF camera mods — see **[itsloopyo's mods](https://github.com/itsloopyo?tab=repositories)**, which it's designed to drive.
 
 - Configurable IP and port (default `127.0.0.1:4242`).
 - Per-axis flips (X, Y, Z, yaw, pitch, roll) to match game conventions.
