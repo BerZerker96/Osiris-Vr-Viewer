@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="1584" height="672" alt="Vbanner" src="https://github.com/user-attachments/assets/cfeaee04-54a3-49a9-b999-8944ba58ef9b" />
+<img src="assets/logo.ico" width="120" alt="Osiris VR Viewer logo" />
 
 # Osiris VR Viewer
 
@@ -16,233 +16,256 @@
 
 ---
 
-## 📖 About
+## 📖 What it is
 
-**Osiris VR Viewer** is a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@artumino](https://github.com/artumino), heavily extended into a full-featured stereoscopic 3D playback platform for OpenXR runtimes (SteamVR, Oculus, Virtual Desktop, Varjo, Pimax, etc.).
+**Osiris VR Viewer** takes a stereoscopic 3D image — from a `geo-11` / `Katanga` mod, the SuperDepth3D / Geo3D ReShade export, or any side-by-side / top-and-bottom source — and projects it into your headset on a curved screen, a sphere, a box theatre, or a fisheye dome. On top of that it adds a full image pipeline (sharpening, clarity, filtering), depth and parallax controls, and the ability to drive games with your head (mouse, gamepad, or 6DoF tracking output).
 
-It captures stereoscopic 3D content from `geo-11` / `Katanga` mods, desktop duplication, or any side-by-side / top-and-bottom source, and projects it into VR on a curved screen, sphere, box room, or fishbowl-style mesh, with per-eye supersampling, image post-processing, simulated 6DoF parallax, and head-tracking output to drive games and 6DoF mods over the network.
+It's a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@artumino](https://github.com/artumino), heavily extended, and runs on any OpenXR runtime (SteamVR, Oculus, Virtual Desktop, Varjo, Pimax, etc.).
 
-Built on:
-- 🦀 **Rust** — zero-overhead, memory-safe, no GC stutter
-- 🎮 **OpenXR 1.0** — works with every major VR runtime
-- ⚡ **wgpu / Vulkan** — modern multiview rendering, single command buffer for both eyes
-- 🪟 **Windows** primary target; **D3D11** & **D3D12** zero-copy texture interop
-- 💜 **egui** for the control panel — instant-mode, dark themed, GPU-accelerated
+**Two programs, no installer:**
+
+| Program | What it does |
+|---|---|
+| 🥽 **`osiris-vr-viewer.exe`** | The viewer. Lives in the system tray (no window) and renders your 3D content in VR. |
+| 🎛️ **`osiris-gui.exe`** | The control panel. Every setting is a live slider — changes apply within one VR frame. Saves presets the viewer reads instantly. |
+
+---
+
+## 🎮 Supported 3D Mods & Companion Tools
+
+Install the mod into your game as its own docs say, then let Osiris pick up the 3D image.
+
+| Mod / Tool | Link | What it is |
+|---|---|---|
+| **geo-11** | [Game list (HelixMod)](https://helixmod.blogspot.com/2013/10/game-list-automatically-updated.html) | The main DX11/DX12 stereo driver. Per-game fixes are at the link. Outputs full-SBS via Katanga. |
+| **Geo3D** | [Geo3D-Installer](https://github.com/Flugan/Geo3D-Installer) | Automated geo-11 installer / geometry 3D for a large game library. |
+| **SuperDepth3D** | [Depth3D (BlueSkyDefender)](https://github.com/BlueSkyDefender/Depth3D) | ReShade depth-based 3D — works on almost any game. |
+| **wiz3D** | [wiz3D (effcol)](https://github.com/effcol/wiz3D) | ReShade-based geometry 3D injector. |
+
+> **🆕 Best full-res capture — [Super-VRExport / Geo-VRExport addon](https://github.com/BerZerker96/Super-VRExport-Addon)**
+> The preferred way to get **full-resolution SBS** out of **SuperDepth3D** and **Geo3D** into Osiris. Use it in place of older half-res export paths.
+
+> **🕹️ 3DoF tracking alternative — [DS4WINDOWS — OSIRIS VR](https://github.com/BerZerker96/DS4WINDOWS---OSIRS-VR)**
+> Another way to feed **3DoF head tracking** to games, alongside or instead of Osiris's built-in mouse/gamepad/UDP output.
 
 ---
 
 ## ✅ Requirements
 
-Osiris is a self-contained pair of executables — there is no installer. Drop the two `.exe` files into the same folder and run. For it to work on any PC, the target machine needs:
+Drop the two `.exe` files into one folder and run — there's no installer. You'll need:
 
 - **Windows 10 or 11 (64-bit).**
-- **An installed and active OpenXR runtime** — e.g. SteamVR or the Pimax OpenXR runtime. The viewer has the OpenXR loader built in, but it still needs a runtime to talk to your headset. Set your desired runtime as the active/default OpenXR runtime before launching. Any existing PCVR setup already has this.
-- **Up-to-date GPU drivers with Vulkan support** — rendering runs on Vulkan, which ships with current NVIDIA / AMD / Intel drivers. A modern GPU is recommended (developed and tested on an RTX 4080 + Pimax).
-- **Microsoft Visual C++ Redistributable (x64), 2015–2022.** This ships with essentially every modern game and is already present on any gaming PC, but on a fresh Windows install you may need it — grab the latest "vc_redist.x64.exe" from Microsoft if the app fails to start.
-- **A stereoscopic 3D source** — a `geo-11` / `Katanga` mod (or the SuperVrExport / GeoVrExport ReShade addon) injected into your game, or any SBS / TAB content via desktop duplication.
+- **An active OpenXR runtime** (SteamVR, Pimax OpenXR, Oculus, etc.). Osiris talks to your headset through it — set your preferred one as the active OpenXR runtime first (see [Runtimes](#-runtimes-openxr-vs-steamvr)). Any PCVR setup already has this.
+- **Up-to-date GPU drivers** (rendering uses Vulkan, included in current NVIDIA / AMD / Intel drivers). Developed and tested on an RTX 4080 + Pimax.
+- **Microsoft Visual C++ Redistributable (x64), 2015–2022** — already on any gaming PC; grab `vc_redist.x64.exe` from Microsoft only if the app won't start on a fresh Windows install.
+- **A 3D source** — a `geo-11` / `Katanga` mod, the [Super-VRExport / Geo-VRExport](https://github.com/BerZerker96/Super-VRExport-Addon) addon, or any SBS / TAB content via desktop capture.
 
-> Put the two exes in the same folder, keep a `presets/` folder beside them for saved configurations, and install the geo-11 / addon DLL into your game as that mod instructs.
-
----
-
-## 🚀 Highlights
-
-- 🎬 **9 stereo modes** including a true Checkerboard 3D demux for SuperDepth3D output
-- 🌐 **3 screen shapes** — curved sphere, box theatre, fisheye dome — each with mesh-level extrusion control
-- 🖱️ **Mouse emulation** — drive mouse-look games with head movement (3 compatibility modes)
-- 📡 **6DoF UDP streaming** — OpenTrack wire format, drives community 6DoF mods (RE Requiem, etc.)
-- 🎢 **Simulated 6DoF** — parallax for flat 3D content, no game-side support required
-- ⌨️ **Global hotkeys** — every action bindable, works while minimized
-- 💾 **Live presets** — save/load full configurations, hot-reloaded by the viewer
-- 🎯 **Real-time tuning GUI** — every slider takes effect within a single VR frame
+> Keep a `presets/` folder next to the exes for saved configurations.
 
 ---
 
-## 📦 What's in the box
+## 🚀 At a glance
 
-Two binaries, one workspace, shared wire format:
-
-| Binary | Purpose |
-|---|---|
-| 🥽 **`osiris-vr-viewer.exe`** | The runtime. Tray-icon only — no desktop window. Starts an OpenXR session and renders captured stereo content onto the configured screen geometry in VR. |
-| 🎛️ **`osiris-gui.exe`** | Optional control panel. Dark theme with blue / purple / yellow section accents. Real-time sliders for everything. Writes presets next to the viewer; the viewer hot-reloads. |
-
----
-
-## ✨ Features
-
-### 📥 Input Sources (auto-detected, in priority order)
-
-1. **Katanga / geo-11** — `Local\KatangaMappedFile` shared texture (D3D11 KMT and D3D12 `DX12VRStream`). Zero-copy import into Vulkan via `VK_KHR_external_memory_win32`.
-2. **Desktop Duplication** — DXGI duplication on Windows for capturing non-Katanga sources.
-3. **`captrs`** — system-memory desktop capture for Linux/Unix builds.
-4. **Blank** — grey fallback when nothing else attaches.
-
-The runtime probes every 10 seconds; when a `geo-11` game starts, the viewer hot-swaps from desktop duplication to the Katanga loader without restart.
-
-### 🎬 Stereo Modes
-
-1. **Mono** — single source, no stereo separation
-2. **Half-SBS** — half-width side-by-side
-3. **Full-SBS** — full-width side-by-side
-4. **Half-TAB** — half-height top-and-bottom
-5. **Full-TAB** — full-height top-and-bottom
-6. **Line-Interlaced** — alternates source eye per scanline (passive 3D TVs, fallback for runtimes that degrade to mono)
-7. **Checkerboard 3D** — full-frame source with parity-exact demux + 4-cardinal-neighbor average for SuperDepth3D's checkerboard output
-
-### 📐 Screen Shapes
-
-1. 🌐 **Sphere** — curved screen with independent X/Y curvature. Default. Wraps gracefully into the periphery via the expansion stretch system.
-2. 📦 **Box** — six-face theatre room with adjustable corner radius. Wraps around the viewer for letterbox-style cinema content.
-3. 🐟 **Fisheye** — full dome projection.
-
-Each shape supports independent X/Y size, X/Y curvature, head-lock following, and the full edge-stretch / extrusion system.
-
-### 🖼️ Image Pipeline
-
-1. **Brightness** — offset in [-1, +1]
-2. **Contrast** — multiplier around mid-grey
-3. **Saturation** — 0 = greyscale, 1 = neutral, 2 = punchy
-4. **Sharpness** — unsharp-mask amount (0 = off)
-5. **Texture sharpener** — micro-detail USM filter, separate from the global sharpness pass
-6. **Filter mode** — toggle bilinear vs trilinear vs nearest at the sampler level
-7. **Filter blend** — slider mix between bilinear and unfiltered (sharper but blockier)
-8. **Per-eye flip / swap** — fix mirrored sources or swapped eyes from VR mods
-9. **Supersampling** — render the OpenXR swapchain at up to 3× native resolution and downsample in the compositor
-
-### ↔️ Edge Stretch & Mesh Extrusion (VHT-Grade)
-
-Two complementary systems for filling the periphery beyond the source rectangle:
-
-1. **Expansion Stretch** (UV-walk, 0–3 reach + 0–3 seamlessness)
-   - Periphery fragments sample stretched source content, walking from the rim toward the source centre
-   - Both axes walk simultaneously — no dominant-axis collapse
-   - Slider 1 = how far the stretch reaches; Slider 2 = how deep into the source it consumes
-
-2. **Mesh Forward-Extrusion** (vertex deformation, 0–3 strength + −1..+1 direction)
-   - Periphery vertices physically curl forward toward the viewer in 3D space — true VHT-style fishbowl
-   - Direction slider lets the user push the periphery TOWARD or AWAY from the viewer
-   - Independent of the UV walk so mesh shape and source coverage are tuned separately
-
-Plus:
-3. **Edge Stretch / Extend** — classic mirror-pixel and sample-extension fillers for the frame's outer ring
-4. **Edge Expand** — gradual variant that tapers smoothly into the periphery
-
-### 🎢 Simulated 6DoF
-
-1. **Movement amount** — head translation drives screen-space parallax (0–20)
-2. **Zoom amount** — head forward/back drives screen zoom independently (0–20)
-3. **Motion smoothness** — exponential damping (0–0.99)
-4. **Auto-anchor on toggle** — re-anchors when enabled so the screen doesn't jump
-
-Disabled when head-lock is on (the screen is already following the head).
-
-### 🖱️ Mouse Emulation
-
-Convert head movement into OS mouse cursor motion to drive 3DoF camera control in mouse-look games (Forza, Skyrim, Witcher 3, etc.).
-
-**Three compatibility modes:**
-
-1. **Relative (`SendInput`)** — Uses `MOUSEEVENTF_MOVE` with `MOUSEEVENTF_MOVE_NOCOALESCE`. Reaches Win32-message games and most raw-input games (modern FPS, racing sims).
-2. **Absolute (`SetCursorPos`)** — Tracks a virtual cursor and sets it absolutely each frame. Reaches games that poll `GetCursorPos` (Witcher 3 with Hardware Cursor OFF, older RPGs, point-and-click titles).
-3. **Both** *(default)* — Sends through both paths simultaneously. Maximum compatibility.
-
-Sub-pixel accumulator preserves slow head movements that would otherwise truncate to 0 px. Sensitivity and mouse-speed sliders independently tune response.
-
-### 📡 6DoF UDP over Network
-
-Stream the head pose to any UDP listener as 48-byte packets in **OpenTrack wire format** (6 little-endian f64: x, y, z in cm, yaw, pitch, roll in degrees). Drives community 6DoF mods like the RE Requiem head-tracking mod, REFramework integrations, or any OpenTrack-aware receiver.
-
-1. ⚙️ Configurable target IP and port (default `127.0.0.1:4242`)
-2. 🔄 **Per-axis flips** — X, Y, Z, Yaw, Pitch, Roll — invert any axis to match game conventions
-3. 📊 **Rotational gains** — independent multipliers for Yaw, Pitch, Roll (0–3)
-4. 📊 **Position gains** — independent multipliers for X, Y, Z (0–3)
-5. 🎯 Reference pose captured on enable; all packets carry deltas
-6. ⚡ Non-blocking socket — never stalls the render loop
-
-### ⌨️ Global Hotkeys
-
-Every action is bindable from the GUI's yellow Hotkeys section. Captured with click-to-bind, persisted with presets, and active even when the GUI is minimized via a background polling thread:
-
-1. Cycle 3D mode
-2. Cycle screen shape
-3. Recenter
-4. Toggle head-lock
-5. Toggle simulated 6DoF
-6. Toggle mouse emulation
-7. Toggle 6DoF UDP stream
-8. Screenshot
-9. Move forward / backward (Z)
-10. Move left / right (X)
-11. Move up / down (Y)
-12. Swap eyes
-13. Restart session
-
-### 🔒 Head-Lock
-
-Anchors the screen to the user's head pose every frame — full follow on all 3 axes with averaged per-eye orientation (cancels HMD toe-in bias). Compatible with all screen shapes and stereo modes.
-
-### 🎯 Recenter & Roll
-
-1. **Recenter** — Re-anchors the screen to the current head pose. Available as a button, hotkey, or tray menu item.
-2. **Roll offset** — corrects head-tilt bias around the forward axis. Works in head-lock and free modes.
-
-### 📷 Screenshot
-
-Captures the current left-eye VR view to a PNG file in the presets folder. Bindable to a hotkey for in-VR captures.
-
-### 💾 Presets
-
-1. Save / load full configurations as JSON next to the viewer
-2. `presets/default.json` is hot-reloaded by the running viewer when overwritten by the GUI
-3. Forward-compatible: old preset files load cleanly into newer builds via `#[serde(default)]` defaults on every field
-
-### 🎨 GUI Polish
-
-1. 🎬 ⚙ 💾 📐 🖼 ↔ 🎢 🖱 📡 ⌨ — every section has a fitting symbol
-2. Custom banner image in the title bar
-3. Three-section accent system: blue (rendering), purple (head tracking), yellow (hotkeys)
-4. Compact layout — every slider/widget kept full size; only padding tightened
-5. Dark theme with white-text-on-color section headers
-6. Native window icon embedded via `winres`
+- 🎬 **9 stereo modes**, including a true Checkerboard demux for SuperDepth3D
+- 🌐 **3 screen shapes** — sphere, box theatre, fisheye dome — with mesh extrusion
+- 🧊 **Depth controls** — separation, convergence, dynamic depth, 5-zone depth layers
+- 🪟 **Two parallax modes** — follow, or an off-axis "window" feel — plus subtle **Stable Lock**
+- 🖱️ **Mouse emulation** and 🎮 **gamepad emulation** — control games with your head
+- 📡 **6DoF tracking output** over UDP (OpenTrack format) for community 6DoF mods
+- 🎛️ **Rich image pipeline** — CAS, dehaze, sharpen, bicubic & Lanczos filters, FSR1 upscale
+- 🖥️ **Katanga Overlay** — float your desktop in VR, toggle mid-game
+- ⌨️ **Fully rebindable hotkeys** + VR-controller binding, even while minimized
+- 💾 **Live presets** the viewer hot-reloads
 
 ---
 
-## 🧱 Architecture
+# ✨ Features
 
-```
-┌─────────────────────┐     SHM (POD struct, ~1 KB)     ┌──────────────────────┐
-│   osiris-gui.exe    │ ◄──────────────────────────────► │ osiris-vr-viewer.exe │
-│  (egui control UI)  │      LiveParams v24              │   (OpenXR runtime)   │
-└─────────────────────┘                                  └──────────────────────┘
-         │                                                          │
-         ▼                                                          ▼
-   presets/*.json                                            ┌──────────────┐
-   hotkey bindings                                           │   Loaders:   │
-   live config                                               │   Katanga →  │
-                                                             │   DesktopDup │
-                                                             │   → captrs → │
-                                                             │   Blank      │
-                                                             └──────┬───────┘
-                                                                    │
-                                                                    ▼
-                                                             ┌──────────────┐
-                                                             │ wgpu / Vulkan│
-                                                             │  multiview   │
-                                                             │  renderer    │
-                                                             └──────┬───────┘
-                                                                    │
-                                                                    ▼
-                                                             ┌──────────────┐
-                                                             │   OpenXR     │
-                                                             │   Compositor │
-                                                             └──────────────┘
-```
+## 🖼️ Picture & Screen
 
-- **`osiris-shared`** crate: wire format for SHM (`LiveParams` struct, version-checked)
-- **`osiris-gui`**: egui app with live preview of all settings
-- **`osiris-vr-viewer`**: tray-only runtime, hot-reloads `LiveParams` from SHM each frame
-- All inputs and settings flow GUI → SHM → viewer with version handshake and atomic updates
+### Input sources (auto-detected, in priority order)
+
+1. **Katanga / geo-11** — the shared 3D texture from a geo-11 game, captured directly with no extra copy.
+2. **Desktop Duplication** — captures the Windows desktop for non-Katanga sources (e.g. SuperDepth3D / Geo3D via ReShade, if you're not using the VRExport shared texture).
+3. **Desktop capture (Linux/Unix builds).**
+4. **Blank** — a grey fallback when nothing is attached.
+
+When a geo-11 game starts, the viewer **hot-swaps** to the full-res Katanga source automatically — no restart — and **reconnects seamlessly** if the game changes the shared texture mid-session. On game exit it falls back to the desktop on its own.
+
+### Stereo modes
+
+Mono · Half-SBS · Full-SBS (geo-11 mods) · Half-TAB · Full-TAB · Line-Interlaced (passive 3D TVs) · **Checkerboard 3D** (DLP / SuperDepth3D, with a parity-exact demux).
+
+### Screen shapes
+
+- 🌐 **Sphere** — curved screen with independent X/Y curvature (the default).
+- 📦 **Box** — a six-sided theatre room with adjustable corner radius.
+- 🐟 **Fisheye** — full dome projection.
+
+Each shape has its own X/Y size, X/Y curvature, head-lock following, a **concave back-wall** control, and the full edge-stretch system below.
+
+### Image pipeline
+
+- **Brightness / Contrast / Saturation** — the basics.
+- **Sharpness** and a separate **Texture sharpener** for micro-detail.
+- **Contrast Adaptive Sharpening (CAS)** — edge-aware sharpening (0–10).
+- **Dehaze / Clarity** — local-contrast lift (0–10).
+- **Katanga Filters** — a one-toggle "stronger image" set (extra CAS / dehaze / clarity) that only kicks in on a live Katanga source, stacked on top of your normal settings. Great for instantly waking up a dull game image; toggle it with a hotkey.
+- **Resampling filters** — **Bilinear**, **Bicubic**, and **Lanczos**, each a blend slider. ⚠️ *Bicubic and especially Lanczos are GPU-heavy — see [Performance](#-performance--tuning).*
+- **FSR1 upscale** — render lower and upscale for more speed (off by default; needs a restart).
+- **Flip / swap per eye** — fix mirrored or swapped sources.
+- **Supersampling** — render above native for extra clarity. ⚠️ *Very heavy — recommended max **1.20**.*
+
+### Edge stretch, mesh extrusion & Hybrid Immersion
+
+Fill the periphery beyond the source rectangle for a more immersive, wrap-around feel:
+
+- **Expansion Stretch** — periphery pixels sample stretched content from the rim inward. Two sliders: how far the stretch reaches, and how deep into the image it pulls from.
+- **Mesh Forward-Extrusion** — the periphery physically curls toward (or away from) you in 3D — the classic VHT fishbowl. Strength + direction sliders.
+- **Edge Stretch / Extend / Expand** — simpler mirror-and-extend fillers for the outer ring.
+- **Hybrid Immersion** — an even rim-stretch with an optional **rear-360 wrap** (stretch, direction, dim, and motion-fade controls) for maximum coverage.
+
+## 🎯 Depth, Parallax & Motion
+
+### Depth & stereo geometry
+
+- **Separation** — how far apart the two eye images are (0–3). Higher = more 3D pop, lower = flatter.
+- **Convergence** — slides the comfortable focal plane in or out of the screen.
+- **Dynamic Depth** — links leaning in/out to convergence and separation (with optional **looming**) so the scene gently expands as you move. (Pauses while Stable Lock is on.)
+- **Depth Layers** — a 5-zone "diorama": each ring of the image shifts by a different amount as you sway, for a soft, hole-free sense of depth on flat 3D. Controls for strength, separation, follow-through delay, falloff curve, zoom-deepening, and reach.
+
+### Simulated 6DoF (two parallax modes)
+
+Head movement creates parallax on flat 3D content — no game support needed.
+
+- **Default (follow)** — the screen moves with your head (classic parallax).
+- **Off-axis "window"** — the screen acts like a fixed window: the deeper content sits behind the frame, the more it shifts as you move — a "looking through a window" feel. Adds window-depth, parallax, edge-falloff, and vertical-balance controls.
+
+Both share movement amount, zoom amount, smoothing, and an auto-anchor so the view doesn't jump when you enable it.
+
+### Head-Lock & Stable Lock
+
+- **Head-Lock** — pins the screen to your head on all axes (with averaged per-eye orientation to cancel HMD toe-in). Works with every shape and stereo mode.
+- **Stable Lock** — keeps the screen head-locked but adds a **subtle, fish-tank parallax** via dedicated **Parallax X/Y** and **Parallax Z** sliders, so it still feels anchored in space. Tuned with its own gentle scaling so the sliders cover a usable subtle→strong range.
+
+### Directional 6DoF (tilt & turn)
+
+Turns head **rotation** (yaw / pitch / roll) into a small position shift with per-axis gains — a light "peek around the edges" effect layered on top of the parallax modes.
+
+### Motion & frame features *(experimental)*
+
+> ⚠️ **Optical flow, Temporal blend, and Frame pacing are experimental.** They can smooth motion but may also add artefacts (ghosting, shimmer) or pacing hitches. Enable one at a time and turn off if you see issues.
+
+- **Optical flow** — motion extrapolation (sub-pixel, framerate-independent).
+- **Temporal blend** — smooths frame-to-frame transitions.
+- **Frame pacing** — submits within a target slice of the frame.
+- **VSync mode** — Default / Off / On / Adaptive / Adaptive Half-Refresh.
+- **FPS limit** — optional cap.
+- **Pose prediction (ms)** — extra prediction to reduce drag/flicker on some headsets (see [Pimax notes](#-pimax-users--fixing-flicker)).
+
+### Auto Adjust
+
+Nudges the screen automatically **when head-lock turns on**, and reverts when it turns off — so your locked and free positions can each sit where you like. Independent toggles + values for **X, Y, Z, height, and roll**.
+
+## 🎮 Controlling Games With Your Head
+
+### Mouse emulation
+
+Turn head movement into mouse-cursor motion for mouse-look games (Forza, Skyrim, Witcher 3, etc.). Three compatibility modes:
+
+- **Relative** — reaches most modern FPS and racing sims.
+- **Absolute** — for games that read the cursor position directly (e.g. Witcher 3 with Hardware Cursor off, older RPGs, point-and-click).
+- **Both** *(default)* — sends both for maximum compatibility.
+
+Sensitivity and speed sliders tune the response; a sub-pixel accumulator keeps slow movements from being lost.
+
+### Joystick emulation
+
+Turn head movement into a **virtual Xbox controller right stick** for gamepad-driven games. Requires the free **[ViGEmBus driver](https://github.com/nefarius/ViGEmBus/releases)** (one-time install). Two modes:
+
+- **Relative-Delta** — how *fast* you turn sets the stick deflection. Best for **FPS / look-around**.
+- **Joy-Look Continuous** — your head *angle* maps to a stick position. Best for **flight / driving**.
+
+Tunable: sensitivity, deadzone, max angle, invert X/Y, smoothness, and X/Y speed.
+
+### 6DoF UDP output (for 6DoF mods)
+
+Streams your head pose in **OpenTrack format** to any UDP listener, to drive community 6DoF mods (RE Requiem head-tracking, REFramework, or any OpenTrack-aware receiver).
+
+- Configurable IP and port (default `127.0.0.1:4242`).
+- Per-axis flips (X, Y, Z, yaw, pitch, roll) to match game conventions.
+- Independent rotational and position gains.
+- Captures a reference pose on enable; packets carry deltas. Non-blocking, so it never stalls rendering.
+
+### VR Data to UDP (FreePIE / VRCompanion)
+
+A second, independent output that streams head (and per-controller left/right) data to companion apps like **[FreePIE](https://github.com/Ofisare/FreePIE)** and **[VRCompanion](https://github.com/Ofisare/VRCompanion)** — its own IP/port, per-axis flips, and gains — for setups that don't use the OpenTrack path above.
+
+## 🛠️ Overlay, Hotkeys & Presets
+
+### Katanga Overlay
+
+Shows your **Windows desktop as a floating panel in VR**, so you can check the desktop, Discord, or a guide without removing the headset — and toggle it with a hotkey **while you're in a Katanga full-res game**.
+
+- **Size** and **Distance** (0.5–5 m each).
+- **Resolution** — 720p / 1080p / 1440p / 4K (sharper text = more GPU memory).
+- **HUD Mode** — on: the panel follows your head; off: it stays fixed in the room.
+
+> ⚠️ **Needs borderless:** the overlay only shows **while the game runs in borderless windowed mode** — that's what lets Osiris display the desktop *during* Katanga full-res 3D gaming. Exclusive-fullscreen games won't show it.
+
+### Global hotkeys
+
+Every action is rebindable (click-to-bind), saved with presets, and works even when the GUI is minimized:
+
+- **View:** cycle 3D mode, cycle screen shape, swap eyes
+- **Position:** recenter, move X/Y/Z, zoom in/out, roll left/right
+- **Modes:** toggle head-lock, simulated 6DoF, mouse emulation, joystick emulation, 6DoF UDP
+- **Katanga:** toggle overlay, toggle Katanga Filters, **Force Desktop** (instantly drop to desktop, then auto-return to the game)
+- **Misc:** screenshot, cycle preset, restart session
+
+> 🎮 **VR controller binding:** these actions can also be triggered from your **VR controllers** in-headset, and those toggles reflect straight back into the GUI checkboxes, so the panel always shows the true state.
+
+### Recenter, Roll & Screenshot
+
+- **Recenter** — re-anchor the screen to your current head pose (button, hotkey, or tray).
+- **Roll offset** — correct head-tilt bias around the forward axis.
+- **Screenshot** — save the current left-eye view to a PNG in the presets folder.
+
+### Presets
+
+Save and load full configurations as JSON next to the viewer. `presets/default.json` is hot-reloaded by the running viewer the moment the GUI saves it, and old presets keep working in newer builds (every field has a default).
+
+---
+
+## 🕹️ Runtimes: OpenXR vs SteamVR
+
+Osiris is an **OpenXR** app, so it runs on whichever OpenXR runtime your headset uses:
+
+- **Native runtime** (Pimax OpenXR, Oculus, etc.) — set it as the active OpenXR runtime, then launch Osiris.
+- **SteamVR runtime** — set SteamVR as the current OpenXR runtime (SteamVR → Settings → OpenXR → "Set SteamVR as OpenXR Runtime"), then launch Osiris.
+
+**Performance is near-identical either way** — the rendering path costs the same — so pick whichever is more stable for your headset.
+
+> ⚠️ **Katanga + SteamVR:** Osiris itself runs the same on both, but **Katanga full-res capture tends to perform poorly under the SteamVR runtime specifically.** For Katanga full-res gaming, prefer your headset's **native OpenXR runtime**. SteamVR is still great for desktop/SBS content and headsets where it's the more stable choice.
+
+---
+
+## ⚡ Performance & Tuning
+
+A few features are powerful but costly — add them deliberately:
+
+- **Supersampling is heavy.** Above native, pixel cost climbs fast. **Recommended max: 1.20.** Beyond that you usually lose more frame time than you gain in clarity — lean on the sharpen/CAS pipeline instead.
+- **Bicubic and Lanczos filters are demanding** (Lanczos most of all). Use them when you have GPU headroom; drop back to bilinear if you're frame-bound.
+- **Optical flow, temporal blend, and frame pacing are experimental** and can cause artefacts or hitches. One at a time.
+- **Costs stack.** High supersampling + Lanczos + CAS + flow together will tax even a strong GPU. If you drop frames, lower supersampling first, then filter quality, then the experimental motion features.
+
+### 🟣 Pimax users — fixing flicker
+
+If you get flicker / ATW drag on Pimax, try in order:
+
+1. **Switch to the SteamVR OpenXR runtime** — often fixes Pimax flicker outright (non-Katanga content; see the Katanga note above).
+2. **Lock to half framerate** — use Adaptive Half-Refresh (or the FPS limit) targeting a clean **90 Hz** or **120 Hz** half-rate for a stable cadence.
+3. **Use the pose-prediction slider** — a few ms (≈8–10 ms is a good start for Pimax Crystal) reduces ATW flicker/drag.
 
 ---
 
@@ -253,63 +276,47 @@ Requires **Rust 1.74+** and the **Vulkan SDK** on Windows.
 ```sh
 git clone https://github.com/<your-org>/osiris-vr-viewer
 cd osiris-vr-viewer
-cargo build --release
+build.bat clean      # or: cargo build --release
 ```
 
-Built binaries land in `target/release/`. The GUI's app icon is embedded via `winres` from `gui/app-icon.ico`; the viewer's icon comes from `assets/icon.ico`.
+`build.bat` builds in release and renames the binaries to `osiris-vr-viewer.exe` and `osiris-gui.exe` (Cargo package names can't have spaces, so the rename happens after build). Output lands in `target/release/`.
 
 ---
 
 ## 🎮 Usage
 
-### Quick Start
+1. Set your **OpenXR runtime** active (native or SteamVR — see [Runtimes](#-runtimes-openxr-vs-steamvr)).
+2. Launch **`osiris-vr-viewer.exe`** (it appears in the tray).
+3. Launch **`osiris-gui.exe`** to open the control panel.
+4. Pick a stereo mode and screen shape, put on your headset — Osiris auto-detects the source and renders. Start your geo-11 / addon game and it hot-swaps to the full-res image.
 
-1. Launch `osiris-vr-viewer.exe` — appears as a tray icon
-2. Launch `osiris-gui.exe` — opens the control panel
-3. Pick a stereo mode and screen shape
-4. Don your headset — the viewer auto-detects available capture sources and renders
+**Tray menu:** Recenter, Screenshot, Toggle Head-Lock, Cycle Stereo Mode, Cycle Screen Shape, Quit.
 
-### Tray Menu
+**Mouse emulation:** enable it, start with **Both**, switch to **Relative** if the game over-rotates or **Absolute** if it ignores Relative, then tune sensitivity/speed.
 
-Right-click the tray icon for: Recenter, Screenshot, Toggle Head-Lock, Cycle Stereo Mode, Cycle Screen Shape, Quit.
-
-### Mouse Emulation Setup
-
-1. Toggle **Enable mouse emulation** in the GUI's purple Mouse Emulation section
-2. Pick a compatibility mode:
-   - **Both** for first-time use (works in most games)
-   - **Relative** if the game has rapid camera over-rotation in Both mode
-   - **Absolute** if the game ignores Relative entirely (Witcher 3 hardware-cursor-off)
-3. Tune Sensitivity and Mouse speed to taste
-
-### 6DoF UDP Setup (RE Requiem mod example)
-
-1. In the game's mod config, set OpenTrack listener to `127.0.0.1:4242`
-2. In Osiris GUI's purple **6DOF MODS** section, enable the UDP stream
-3. Verify IP is `127.0.0.1` and port is `4242`
-4. If any axis goes the wrong way, toggle its **Axis flip** checkbox
-5. Tune **Rotational gains** and **Position gains** to match game scale
+**6DoF UDP (e.g. RE Requiem):** point the game's OpenTrack listener at `127.0.0.1:4242`, enable the UDP stream in the GUI, and flip any axis that points the wrong way.
 
 ---
 
 ## 📋 Tested
 
-- ✅ SteamVR / OpenXR runtime
-- ✅ Oculus / Meta Quest Link
-- ✅ Virtual Desktop (OpenXR)
-- ✅ Varjo runtime
-- ✅ Pimax PiTool / OpenXR
-- ✅ Mouse emulation: Skyrim VR (mod), Forza Horizon, Witcher 3 (HW cursor off — Absolute mode)
-- ✅ UDP 6DoF: RE Requiem mod, REFramework
+- ✅ Runtimes: SteamVR / OpenXR, Oculus / Quest Link, Virtual Desktop, Varjo, Pimax
+- ✅ Mouse emulation: Skyrim VR (mod), Forza Horizon, Witcher 3 (HW cursor off — Absolute)
+- ✅ 6DoF UDP: RE Requiem mod, REFramework
+- ✅ Sources: geo-11 / Katanga (full-SBS), SuperDepth3D (checkerboard & VRExport SBS), Geo3D
 
 ---
 
 ## 🙏 Credits
 
 - **[VRScreenCap](https://github.com/artumino/VRScreenCap)** by [@artumino](https://github.com/artumino) — the original architecture this fork is built on
-- **[geo-11](https://www.helixmod.com/)** — stereoscopic 3D mod platform
+- **[Katanga](https://github.com/bo3b/katanga)** by [@bo3b](https://github.com/bo3b) — the shared-texture VR streaming layer Osiris reads from
+- **[geo-11 / HelixMod](https://helixmod.blogspot.com/2013/10/game-list-automatically-updated.html)** — stereoscopic 3D mod platform and per-game fixes
+- **[Geo3D-Installer](https://github.com/Flugan/Geo3D-Installer)** by [@Flugan](https://github.com/Flugan)
+- **[SuperDepth3D / Depth3D](https://github.com/BlueSkyDefender/Depth3D)** by [@BlueSkyDefender](https://github.com/BlueSkyDefender)
+- **[wiz3D](https://github.com/effcol/wiz3D)** by [@effcol](https://github.com/effcol)
+- **[Super-VRExport-Addon](https://github.com/BerZerker96/Super-VRExport-Addon)** & **[DS4WINDOWS — OSIRIS VR](https://github.com/BerZerker96/DS4WINDOWS---OSIRS-VR)** by [@BerZerker96](https://github.com/BerZerker96)
 - **[OpenTrack](https://github.com/opentrack/opentrack)** — wire format reference for the 6DoF UDP output
-- **[SuperDepth3D](https://reshade.me/forum/shader-presentation/3935-superdepth3d)** — checkerboard 3D output reference
 
 ---
 
