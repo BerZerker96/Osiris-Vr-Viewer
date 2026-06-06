@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/logo.ico" width="120" alt="Osiris VR Viewer logo" />
+<img width="1584" height="672" alt="Vbanner" src="https://github.com/user-attachments/assets/e73c06b2-d74f-430c-b332-ac0e1f6e262f" />
 
 # Osiris VR Viewer
 
