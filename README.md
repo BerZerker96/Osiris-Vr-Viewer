@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/github-banner.jpg" alt="Osiris VR Viewer" width="100%" />
+<img width="1584" height="672" alt="Gemini_Generated_Image_w1uoysw1uoysw1uo" src="https://github.com/user-attachments/assets/4c28d98c-b4b8-4b49-94a4-623201f72af4" />
 
 # Osiris VR Viewer
 
