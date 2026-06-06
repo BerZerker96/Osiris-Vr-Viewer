@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="1584" height="672" alt="Vbanner" src="https://github.com/user-attachments/assets/e73c06b2-d74f-430c-b332-ac0e1f6e262f" />
+<img src="assets/logo.ico" width="120" alt="Osiris VR Viewer logo" />
 
 # Osiris VR Viewer
 
@@ -83,7 +83,7 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 
 ## 🖼️ Picture & Screen
 
-### Input sources (auto-detected, in priority order)
+### 📥 Input sources (auto-detected, in priority order)
 
 1. **Katanga / geo-11** — the shared 3D texture from a geo-11 game, captured directly with no extra copy.
 2. **Desktop Duplication** — captures the Windows desktop for non-Katanga sources (e.g. SuperDepth3D / Geo3D via ReShade, if you're not using the VRExport shared texture).
@@ -92,11 +92,15 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 
 When a geo-11 game starts, the viewer **hot-swaps** to the full-res Katanga source automatically — no restart — and **reconnects seamlessly** if the game changes the shared texture mid-session. On game exit it falls back to the desktop on its own.
 
-### Stereo modes
+---
+
+### 👓 Stereo modes
 
 Mono · Half-SBS · Full-SBS (geo-11 mods) · Half-TAB · Full-TAB · Line-Interlaced (passive 3D TVs) · **Checkerboard 3D** (DLP / SuperDepth3D, with a parity-exact demux).
 
-### Screen shapes
+---
+
+### 📐 Screen shapes
 
 - 🌐 **Sphere** — curved screen with independent X/Y curvature (the default).
 - 📦 **Box** — a six-sided theatre room with adjustable corner radius.
@@ -104,7 +108,9 @@ Mono · Half-SBS · Full-SBS (geo-11 mods) · Half-TAB · Full-TAB · Line-Inter
 
 Each shape has its own X/Y size, X/Y curvature, head-lock following, a **concave back-wall** control, and the full edge-stretch system below.
 
-### Image pipeline
+---
+
+### 🎨 Image pipeline
 
 - **Brightness / Contrast / Saturation** — the basics.
 - **Sharpness** and a separate **Texture sharpener** for micro-detail.
@@ -116,7 +122,9 @@ Each shape has its own X/Y size, X/Y curvature, head-lock following, a **concave
 - **Flip / swap per eye** — fix mirrored or swapped sources.
 - **Supersampling** — render above native for extra clarity. ⚠️ *Very heavy — recommended max **1.20**.*
 
-### Edge stretch, mesh extrusion & Hybrid Immersion
+---
+
+### ↔️ Edge stretch, mesh extrusion & Hybrid Immersion
 
 Fill the periphery beyond the source rectangle for a more immersive, wrap-around feel:
 
@@ -125,16 +133,20 @@ Fill the periphery beyond the source rectangle for a more immersive, wrap-around
 - **Edge Stretch / Extend / Expand** — simpler mirror-and-extend fillers for the outer ring.
 - **Hybrid Immersion** — an even rim-stretch with an optional **rear-360 wrap** (stretch, direction, dim, and motion-fade controls) for maximum coverage.
 
+---
+
 ## 🎯 Depth, Parallax & Motion
 
-### Depth & stereo geometry
+### 🧊 Depth & stereo geometry
 
 - **Separation** — how far apart the two eye images are (0–3). Higher = more 3D pop, lower = flatter.
 - **Convergence** — slides the comfortable focal plane in or out of the screen.
 - **Dynamic Depth** — links leaning in/out to convergence and separation (with optional **looming**) so the scene gently expands as you move. (Pauses while Stable Lock is on.)
 - **Depth Layers** — a 5-zone "diorama": each ring of the image shifts by a different amount as you sway, for a soft, hole-free sense of depth on flat 3D. Controls for strength, separation, follow-through delay, falloff curve, zoom-deepening, and reach.
 
-### Simulated 6DoF (two parallax modes)
+---
+
+### 🪟 Simulated 6DoF (two parallax modes)
 
 Head movement creates parallax on flat 3D content — no game support needed.
 
@@ -143,16 +155,22 @@ Head movement creates parallax on flat 3D content — no game support needed.
 
 Both share movement amount, zoom amount, smoothing, and an auto-anchor so the view doesn't jump when you enable it.
 
-### Head-Lock & Stable Lock
+---
+
+### 🔒 Head-Lock & Stable Lock
 
 - **Head-Lock** — pins the screen to your head on all axes (with averaged per-eye orientation to cancel HMD toe-in). Works with every shape and stereo mode.
 - **Stable Lock** — keeps the screen head-locked but adds a **subtle, fish-tank parallax** via dedicated **Parallax X/Y** and **Parallax Z** sliders, so it still feels anchored in space. Tuned with its own gentle scaling so the sliders cover a usable subtle→strong range.
 
-### Directional 6DoF (tilt & turn)
+---
+
+### 🧭 Directional 6DoF (tilt & turn)
 
 Turns head **rotation** (yaw / pitch / roll) into a small position shift with per-axis gains — a light "peek around the edges" effect layered on top of the parallax modes.
 
-### Motion & frame features *(experimental)*
+---
+
+### 🌀 Motion & frame features *(experimental)*
 
 > ⚠️ **Optical flow, Temporal blend, and Frame pacing are experimental.** They can smooth motion but may also add artefacts (ghosting, shimmer) or pacing hitches. Enable one at a time and turn off if you see issues.
 
@@ -163,13 +181,17 @@ Turns head **rotation** (yaw / pitch / roll) into a small position shift with pe
 - **FPS limit** — optional cap.
 - **Pose prediction (ms)** — extra prediction to reduce drag/flicker on some headsets (see [Pimax notes](#-pimax-users--fixing-flicker)).
 
-### Auto Adjust
+---
+
+### ⚙️ Auto Adjust
 
 Nudges the screen automatically **when head-lock turns on**, and reverts when it turns off — so your locked and free positions can each sit where you like. Independent toggles + values for **X, Y, Z, height, and roll**.
 
+---
+
 ## 🎮 Controlling Games With Your Head
 
-### Mouse emulation
+### 🖱️ Mouse emulation
 
 Turn head movement into mouse-cursor motion for mouse-look games (Forza, Skyrim, Witcher 3, etc.). Three compatibility modes:
 
@@ -179,7 +201,9 @@ Turn head movement into mouse-cursor motion for mouse-look games (Forza, Skyrim,
 
 Sensitivity and speed sliders tune the response; a sub-pixel accumulator keeps slow movements from being lost.
 
-### Joystick emulation
+---
+
+### 🕹️ Joystick emulation
 
 Turn head movement into a **virtual Xbox controller right stick** for gamepad-driven games. Requires the free **[ViGEmBus driver](https://github.com/nefarius/ViGEmBus/releases)** (one-time install). Two modes:
 
@@ -188,7 +212,9 @@ Turn head movement into a **virtual Xbox controller right stick** for gamepad-dr
 
 Tunable: sensitivity, deadzone, max angle, invert X/Y, smoothness, and X/Y speed.
 
-### 6DoF UDP output (for 6DoF mods)
+---
+
+### 📡 6DoF UDP output (for 6DoF mods)
 
 Streams your head pose in **OpenTrack format** to any UDP listener, to drive community 6DoF mods (RE Requiem head-tracking, REFramework, or any OpenTrack-aware receiver).
 
@@ -197,23 +223,30 @@ Streams your head pose in **OpenTrack format** to any UDP listener, to drive com
 - Independent rotational and position gains.
 - Captures a reference pose on enable; packets carry deltas. Non-blocking, so it never stalls rendering.
 
-### VR Data to UDP (FreePIE / VRCompanion)
+---
+
+### 🔌 VR Data to UDP (FreePIE / VRCompanion)
 
 A second, independent output that streams head (and per-controller left/right) data to companion apps like **[FreePIE](https://github.com/Ofisare/FreePIE)** and **[VRCompanion](https://github.com/Ofisare/VRCompanion)** — its own IP/port, per-axis flips, and gains — for setups that don't use the OpenTrack path above.
 
+---
+
 ## 🛠️ Overlay, Hotkeys & Presets
 
-### Katanga Overlay
+### 🖥️ Katanga Overlay
 
 Shows your **Windows desktop as a floating panel in VR**, so you can check the desktop, Discord, or a guide without removing the headset — and toggle it with a hotkey **while you're in a Katanga full-res game**.
 
 - **Size** and **Distance** (0.5–5 m each).
 - **Resolution** — 720p / 1080p / 1440p / 4K (sharper text = more GPU memory).
 - **HUD Mode** — on: the panel follows your head; off: it stays fixed in the room.
+- **Show GUI with overlay** — when on, the overlay **hotkey** also brings the Osiris control panel to the front so it appears inside the overlay, and hands focus back to the game when you toggle the overlay off. Tweak settings in-headset, then drop straight back into the game. *(Needs the game in borderless, like the overlay itself.)*
 
 > ⚠️ **Needs borderless:** the overlay only shows **while the game runs in borderless windowed mode** — that's what lets Osiris display the desktop *during* Katanga full-res 3D gaming. Exclusive-fullscreen games won't show it.
 
-### Global hotkeys
+---
+
+### ⌨️ Global hotkeys
 
 Every action is rebindable (click-to-bind), saved with presets, and works even when the GUI is minimized:
 
@@ -225,13 +258,17 @@ Every action is rebindable (click-to-bind), saved with presets, and works even w
 
 > 🎮 **VR controller binding:** these actions can also be triggered from your **VR controllers** in-headset, and those toggles reflect straight back into the GUI checkboxes, so the panel always shows the true state.
 
-### Recenter, Roll & Screenshot
+---
+
+### 📍 Recenter, Roll & Screenshot
 
 - **Recenter** — re-anchor the screen to your current head pose (button, hotkey, or tray).
 - **Roll offset** — correct head-tilt bias around the forward axis.
 - **Screenshot** — save the current left-eye view to a PNG in the presets folder.
 
-### Presets
+---
+
+### 💾 Presets
 
 Save and load full configurations as JSON next to the viewer. `presets/default.json` is hot-reloaded by the running viewer the moment the GUI saves it, and old presets keep working in newer builds (every field has a default).
 
