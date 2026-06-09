@@ -50,10 +50,10 @@ Install the mod into your game as its own docs say, then let Osiris pick up the 
 
 | Mod / Tool | Link | What it is |
 |---|---|---|
-| **geo-11** | [Game list (HelixMod)](https://helixmod.blogspot.com/2013/10/game-list-automatically-updated.html) | The main DX11/DX12 stereo driver. Per-game fixes are at the link. Outputs full-SBS via Katanga. |
+| **geo-11** | [Game list (HelixMod)](https://helixmod.blogspot.com/2013/10/game-list-automatically-updated.html) | The main DX11 stereo driver. Per-game fixes are at the link. Outputs full-SBS via Katanga. |
 | **Geo3D** | [Geo3D-Installer](https://github.com/Flugan/Geo3D-Installer) | Automated geo-3d installer / geometry 3D for a large game library. |
 | **SuperDepth3D** | [Depth3D (BlueSkyDefender)](https://github.com/BlueSkyDefender/Depth3D) | ReShade depth-based 3D — works on almost any game. |
-| **wiz3D** | [wiz3D (effcol)](https://github.com/effcol/wiz3D) | ReShade-based geometry 3D injector. |
+| **wiz3D** | [wiz3D (effcol)](https://github.com/effcol/wiz3D) | geometry 3D injector. |
 
 > **🆕 Best full-res capture — [Super-VRExport / Geo-VRExport addon](https://github.com/BerZerker96/Super-VRExport-Addon)**
 > The preferred way to get **full-resolution SBS** out of **SuperDepth3D** and **Geo3D** into Osiris. Use it in place of older half-res export paths.
