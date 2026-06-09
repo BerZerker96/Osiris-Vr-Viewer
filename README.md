@@ -35,7 +35,7 @@ It's a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@
 
 <div align="center">
 
-<img width="4764" height="2936" alt="Gemini_Generated_Image_4fhcem4fhcem4fhc - Copy" src="https://github.com/user-attachments/assets/7cfecd29-d503-4275-9b26-032926deae56" />
+<img width="4764" height="2904" alt="Gemini_Generated_Image_4fhcem4fhcem4fhc - Copy" src="https://github.com/user-attachments/assets/25e76fea-8df3-472f-8ba9-e942727fc3a9" />
 
 
 *A few of the games people play in stereoscopic 3D through Osiris*
@@ -82,7 +82,7 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 
 <div align="center">
 
-<img width="4472" height="1603" alt="2026-06-09 14_49_01-" src="https://github.com/user-attachments/assets/a5f15c49-cc20-4a2b-90b0-54a7149a3e03" />
+<img width="2477" height="1546" alt="2026-06-10 00_38_05-" src="https://github.com/user-attachments/assets/d9281f5a-bc89-4e78-a4c3-b6501e0bfc28" />
 
 
 *The Osiris control panel — every setting is a live slider, fully themeable, with custom backgrounds.*
