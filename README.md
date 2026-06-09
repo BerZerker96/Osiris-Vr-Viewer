@@ -82,10 +82,10 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 
 <div align="center">
 
-<!-- 📸 TODO: replace this placeholder with a screenshot of the Osiris GUI control panel (themed, ideally with a background image set) -->
-![The Osiris VR Viewer control panel](docs/images/gui-control-panel.png)
+<img width="4472" height="1603" alt="2026-06-09 14_49_01-" src="https://github.com/user-attachments/assets/a5f15c49-cc20-4a2b-90b0-54a7149a3e03" />
 
-*The Osiris control panel — every setting is a live slider, fully themeable, with custom backgrounds. (Replace with your own screenshot.)*
+
+*The Osiris control panel — every setting is a live slider, fully themeable, with custom backgrounds.*
 
 </div>
 
