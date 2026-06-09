@@ -4,7 +4,7 @@
 
 # Osiris VR Viewer
 
-### A full-resolution OpenXR 3D viewer made for gaming with stereoscopic 3D mods — curved screen geometry, head-tracking output, and a real-time tuning GUI.
+### A full-resolution OpenXR 3D viewer made for Gaming with Stereoscopic 3D mods — curved screen geometry, head-tracking output, and a real-time tuning GUI.
 
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D4?logo=windows&logoColor=white)](https://www.microsoft.com/windows)
 [![Built with Rust](https://img.shields.io/badge/built%20with-Rust-CE422B?logo=rust&logoColor=white)](https://www.rust-lang.org/)
@@ -99,7 +99,7 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 - 🪟 **Two parallax modes** — follow, or an off-axis "window" feel — plus subtle **Stable Lock**
 - 🖱️ **Mouse emulation** and 🎮 **gamepad emulation** — control games with your head
 - 📡 **6DoF tracking output** over UDP (OpenTrack format) for community 6DoF mods
-- 🎛️ **Rich image pipeline** — CAS, dehaze, sharpen, bicubic & Lanczos filters, FSR1 upscale
+- 🎛️ **Rich image pipeline** — CAS, dehaze, sharpen, bicubic & Lanczos filters
 - 🖥️ **Katanga Overlay** — float your desktop in VR, toggle mid-game
 - ⌨️ **Fully rebindable hotkeys** + VR-controller binding, even while minimized
 - 💾 **Live presets** the viewer hot-reloads
