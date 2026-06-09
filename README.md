@@ -51,7 +51,7 @@ Install the mod into your game as its own docs say, then let Osiris pick up the 
 | Mod / Tool | Link | What it is |
 |---|---|---|
 | **geo-11** | [Game list (HelixMod)](https://helixmod.blogspot.com/2013/10/game-list-automatically-updated.html) | The main DX11/DX12 stereo driver. Per-game fixes are at the link. Outputs full-SBS via Katanga. |
-| **Geo3D** | [Geo3D-Installer](https://github.com/Flugan/Geo3D-Installer) | Automated geo-11 installer / geometry 3D for a large game library. |
+| **Geo3D** | [Geo3D-Installer](https://github.com/Flugan/Geo3D-Installer) | Automated geo-3d installer / geometry 3D for a large game library. |
 | **SuperDepth3D** | [Depth3D (BlueSkyDefender)](https://github.com/BlueSkyDefender/Depth3D) | ReShade depth-based 3D — works on almost any game. |
 | **wiz3D** | [wiz3D (effcol)](https://github.com/effcol/wiz3D) | ReShade-based geometry 3D injector. |
 
@@ -167,7 +167,7 @@ Fill the periphery beyond the source rectangle for a more immersive, wrap-around
 - **Separation** — how far apart the two eye images are (0–3). Higher = more 3D pop, lower = flatter.
 - **Convergence** — slides the comfortable focal plane in or out of the screen.
 - **Dynamic Depth** — links leaning in/out to convergence and separation (with optional **looming**) so the scene gently expands as you move. (Pauses while Stable Lock is on.)
-- **Depth Layers** — a 5-zone "diorama": each ring of the image shifts by a different amount as you sway, for a soft, hole-free sense of depth on flat 3D. Controls for strength, separation, follow-through delay, falloff curve, zoom-deepening, and reach.
+- **Depth Layers** — a 5-zone "diorama": each ring of the image shifts by a different amount as you sway, for a soft,sense of depth on flat 3D. Controls for strength, separation, follow-through delay, falloff curve, zoom-deepening, and reach.
 
 ---
 
