@@ -362,9 +362,8 @@ build.bat clean      # or: cargo build --release
 ## 🎮 Usage
 
 1. Set your **OpenXR runtime** active (native or SteamVR — see [Runtimes](#-runtimes-openxr-vs-steamvr)).
-2. Launch **`osiris-vr-viewer.exe`** (it appears in the tray).
-3. Launch **`osiris-gui.exe`** to open the control panel.
-4. Pick a stereo mode and screen shape, put on your headset — Osiris auto-detects the source and renders. Start your geo-11 / addon game and it hot-swaps to the full-res image.
+2. Launch **`osiris-vr-viewer.exe`** (it appears in the tray) , the **`osiris-gui.exe`** control panel opens automatically too appears in task bar
+3. Pick a stereo mode and screen shape, put on your headset — Osiris auto-detects the source and renders. Start your geo-11 / addon game and it hot-swaps to the full-res image.
 
 **Tray menu:** Recenter, Screenshot, Toggle Head-Lock, Cycle Stereo Mode, Cycle Screen Shape, Quit.
 
