@@ -35,10 +35,10 @@ It's a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@
 
 <div align="center">
 
-<!-- 📸 TODO: replace this placeholder with a showcase image/collage of supported games running in stereoscopic 3D through Osiris -->
-![Games running in stereoscopic 3D through Osiris](docs/images/games-showcase.png)
+<img width="4764" height="2936" alt="Gemini_Generated_Image_4fhcem4fhcem4fhc - Copy" src="https://github.com/user-attachments/assets/7cfecd29-d503-4275-9b26-032926deae56" />
 
-*A few of the games people play in stereoscopic 3D through Osiris. (Replace with your own screenshots.)*
+
+*A few of the games people play in stereoscopic 3D through Osiris*
 
 </div>
 
