@@ -20,7 +20,7 @@
 
 **Osiris VR Viewer** takes a stereoscopic 3D image — from a `geo-11` / `Katanga` mod, the SuperDepth3D / Geo3D ReShade export, or any side-by-side / top-and-bottom source — and projects it into your headset on a curved screen, a sphere, a box theatre, or a fisheye dome. On top of that it adds a full image pipeline (sharpening, clarity, filtering), depth and parallax controls, and the ability to drive games with your head (mouse, gamepad, or 6DoF tracking output).
 
-It's a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@artumino](https://github.com/artumino), heavily extended, and runs on any OpenXR runtime (SteamVR, Oculus, Virtual Desktop, Varjo, Pimax, etc.).
+It's a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@artumino](https://github.com/artumino), heavily extended, and runs on any wired OpenXR runtime (SteamVR, Oculus / Quest Link, Varjo, Pimax, etc.).
 
 **Two programs, no installer:**
 
@@ -30,6 +30,17 @@ It's a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@
 | 🎛️ **`osiris-gui.exe`** | The control panel. Every setting is a live slider — changes apply within one VR frame. Saves presets the viewer reads instantly. |
 
 > 🔗 **The two are linked.** Launching the GUI auto-starts the viewer, and **closing the GUI control panel also closes the viewer** — the GUI sends a clean shutdown, then makes sure the viewer process exits. So just close the GUI when you're done; there's no separate viewer to quit.
+
+---
+
+<div align="center">
+
+<!-- 📸 TODO: replace this placeholder with a showcase image/collage of supported games running in stereoscopic 3D through Osiris -->
+![Games running in stereoscopic 3D through Osiris](docs/images/games-showcase.png)
+
+*A few of the games people play in stereoscopic 3D through Osiris. (Replace with your own screenshots.)*
+
+</div>
 
 ---
 
@@ -56,6 +67,7 @@ Install the mod into your game as its own docs say, then let Osiris pick up the 
 
 Drop the two `.exe` files into one folder and run — there's no installer. You'll need:
 
+- **A wired VR headset on an OpenXR runtime.** Osiris streams a shared GPU texture straight into your headset, which needs a **wired** PCVR connection (DisplayPort / HDMI, or a USB Link cable).
 - **Windows 10 or 11 (64-bit).**
 - **An active OpenXR runtime** (SteamVR, Pimax OpenXR, Oculus, etc.). Osiris talks to your headset through it — set your preferred one as the active OpenXR runtime first (see [Runtimes](#-runtimes-openxr-vs-steamvr)). Any PCVR setup already has this.
 - **Up-to-date GPU drivers** (rendering uses Vulkan, included in current NVIDIA / AMD / Intel drivers). Developed and tested on an RTX 4080 + Pimax.
@@ -63,6 +75,19 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 - **A 3D source** — a `geo-11` / `Katanga` mod, the [Super-VRExport / Geo-VRExport](https://github.com/BerZerker96/Super-VRExport-Addon) addon, or any SBS / TAB content via desktop capture.
 
 > Keep a `presets/` folder next to the exes for saved configurations.
+
+> ⚠️ **Wired only — no wireless streaming.** Osiris relies on a shared-GPU-texture path that wireless streaming does **not** expose, so it **will not work over Virtual Desktop (or other wireless/streamed runtimes)**. Use a wired headset on a native or SteamVR OpenXR runtime.
+
+---
+
+<div align="center">
+
+<!-- 📸 TODO: replace this placeholder with a screenshot of the Osiris GUI control panel (themed, ideally with a background image set) -->
+![The Osiris VR Viewer control panel](docs/images/gui-control-panel.png)
+
+*The Osiris control panel — every setting is a live slider, fully themeable, with custom backgrounds. (Replace with your own screenshot.)*
+
+</div>
 
 ---
 
@@ -275,6 +300,19 @@ Save and load full configurations as JSON next to the viewer. `presets/default.j
 
 ---
 
+### 🎨 GUI Theme & Appearance
+
+Restyle the control panel to taste — every option is saved with your config:
+
+- **Theme** — a dropdown of **11 colour themes**: *Colored (default)*, **Dark Blue**, **Black**, **Red**, **Cyan**, **White**, **Orange**, **Yellow**, **Green**, **Purple**, and **Magenta**. The non-default themes recolour every section header and frame uniformly; *Colored* keeps each section's own accent colour.
+- **Custom banner image** and **custom logo image** — drop in your own art at the top of the panel, each with a one-click **Reset** back to the bundled default.
+- **Section background image** — paints a translucent image behind each individual panel section.
+- **Overall background image** — a full-window backdrop behind the entire control panel.
+
+When a background image is set, **every** section — including the Hotkeys grid and the GUI Theme panel itself — turns translucent so the image shows through, and the active theme colours apply across all of them.
+
+---
+
 ## 🕹️ Runtimes: OpenXR vs SteamVR
 
 Osiris is an **OpenXR** app, so it runs on whichever OpenXR runtime your headset uses:
@@ -338,10 +376,68 @@ build.bat clean      # or: cargo build --release
 
 ## 📋 Tested
 
-- ✅ Runtimes: SteamVR / OpenXR, Oculus / Quest Link, Virtual Desktop, Varjo, Pimax
+- ✅ Runtimes: SteamVR / OpenXR, Oculus / Quest Link (wired), Varjo, Pimax
 - ✅ Mouse emulation: Skyrim VR (mod), Forza Horizon, Witcher 3 (HW cursor off — Absolute)
 - ✅ 6DoF UDP: RE Requiem mod, REFramework
 - ✅ Sources: geo-11 / Katanga (full-SBS), SuperDepth3D (checkerboard & VRExport SBS), Geo3D
+
+---
+
+## 🩺 Troubleshooting
+
+Most issues come down to the **OpenXR runtime**, the **3D source**, or a game's **window mode**. Start here.
+
+### 🎮 Katanga game freezes, or the viewer stays stuck after a game hangs or exits
+
+The most common Katanga issue — usually one of these:
+
+- **Use the current [Geo-VRExport / Super-VRExport addon](https://github.com/BerZerker96/Super-VRExport-Addon).** Older addon builds re-published the shared-texture handle on *every* ReShade effect reload, which could leave the viewer reading a freed handle and freeze. The current build only re-publishes when the source actually changes, so the handle stays stable.
+- **Launch the viewer *before* the game.** Osiris can only fall back to a desktop it has actually seen. Start `osiris-vr-viewer.exe` first (so it captures your desktop), *then* launch the game — now any hang, crash, or exit drops you straight back to the desktop.
+- **Run the game in borderless windowed mode**, not exclusive fullscreen. Exclusive fullscreen blocks both the overlay and the desktop fallback.
+- **If a game truly hangs** (its render thread dies), the viewer holds a clean neutral frame instead of the frozen image and returns to the desktop the moment you close the hung game — it no longer thrashes or restart-loops. If you launched the viewer into an already-running game that then hung, just close the game and it recovers.
+- **For Katanga full-res, use your headset's native OpenXR runtime** — the SteamVR runtime performs poorly with Katanga specifically (see [Runtimes](#-runtimes-openxr-vs-steamvr)).
+
+### 🚫 The viewer won't start / "form factor … not available" / "device not available"
+
+- Your **headset is off or asleep**, or **no OpenXR runtime is active**. Power on the headset, start your runtime (native or SteamVR), set it as the active OpenXR runtime, then relaunch.
+- On a **fresh Windows install**, install the **[Microsoft Visual C++ Redistributable (x64)](https://aka.ms/vs/17/release/vc_redist.x64.exe)**.
+
+### 📡 Wireless / Virtual Desktop shows nothing
+
+- Osiris needs a **wired** headset and a shared-texture path that wireless streaming (e.g. Virtual Desktop) doesn't expose. Use a wired PCVR connection or USB Link cable with your headset's native or SteamVR OpenXR runtime (see [Requirements](#-requirements)).
+
+### ⬛ Black screen / no image in VR
+
+- Confirm a **source is detected**: start your geo-11 / addon game, or enable desktop capture for ReShade sources. The viewer auto-detects in priority order (Katanga → Desktop).
+- **Match the stereo mode to the source** (Full-SBS for geo-11, Checkerboard for SuperDepth3D DLP, etc.) — the wrong mode can look black, doubled, or flat.
+
+### 👀 Image looks flat, doubled, or the eyes are swapped
+
+- Pick the **correct stereo mode** for your source, and use the **Swap eyes** hotkey if the depth looks inverted.
+
+### 🖥️ Katanga Overlay won't appear
+
+- The overlay only works while the **game runs in borderless windowed mode**. Exclusive-fullscreen games can't show it.
+
+### 🟣 Flicker or ATW drag (especially Pimax)
+
+- See [Pimax users — fixing flicker](#-pimax-users--fixing-flicker): try the SteamVR OpenXR runtime, lock to a clean half-refresh (90/120 Hz), and add a few ms of pose prediction.
+
+### 🖱️ Mouse emulation doesn't move the game, or over-rotates
+
+- Start with **Both**, switch to **Relative** if the game over-rotates, or **Absolute** if it ignores Relative (turn off Hardware Cursor in games like Witcher 3). For anti-cheat or stubborn games, use the **Interception** driver.
+
+### 🎮 Joystick emulation does nothing
+
+- Install the free **[ViGEmBus driver](https://github.com/nefarius/ViGEmBus/releases)** (one-time install).
+
+### 🐌 Dropped frames / stutter
+
+- Lower **supersampling** first (≤ **1.20**), then drop **Lanczos → Bicubic → Bilinear**, then disable the **experimental** motion features (optical flow, temporal blend, frame pacing) one at a time. See [Performance & Tuning](#-performance--tuning).
+
+### 💾 Presets aren't applying
+
+- Keep a **`presets/`** folder next to the exes. The running viewer hot-reloads `presets/default.json` the instant the GUI saves it.
 
 ---
 
