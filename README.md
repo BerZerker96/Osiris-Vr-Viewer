@@ -275,7 +275,6 @@ It mirrors essentially the whole desktop GUI, organised in three columns with co
 - **Panel controls at the top** — resize the panel (overall size, width ×, height ×), move it (offset X/Y), and set its **distance** (0.5–5 m) from inside the panel itself, or from the desktop GUI's Katanga ImGui section.
 - **Resolution** — 720p / 1080p / 1440p / 4K (sharper text = more GPU memory).
 - **HUD Mode** — on: the panel follows your head; off: it stays fixed in the room.
-- **Show GUI with overlay** — optional: the hotkey also brings the desktop Osiris window to the front and hands focus back to the game when you toggle off. *(This focus trick needs the game in borderless; the in-VR panel itself does not.)*
 
 > ✅ **Works in any window mode.** Because the panel renders its own UI as a VR layer (it doesn't capture the desktop), it shows up even over exclusive-fullscreen games — only the optional "Show GUI with overlay" focus hand-off needs borderless.
 
