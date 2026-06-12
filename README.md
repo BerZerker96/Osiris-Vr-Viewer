@@ -93,14 +93,15 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 
 ## 🚀 At a glance
 
-- 🎬 **9 stereo modes**, including a true Checkerboard demux for SuperDepth3D
+- 🎬 **7 stereo modes**, including a true Checkerboard demux for SuperDepth3D
 - 🌐 **3 screen shapes** — sphere, box theatre, fisheye dome — with mesh extrusion
 - 🧊 **Depth controls** — separation, convergence, dynamic depth, 5-zone depth layers
 - 🪟 **Two parallax modes** — follow, or an off-axis "window" feel — plus subtle **Stable Lock**
 - 🖱️ **Mouse emulation** and 🎮 **gamepad emulation** — control games with your head
 - 📡 **6DoF tracking output** over UDP (OpenTrack format) for community 6DoF mods
 - 🎛️ **Rich image pipeline** — CAS, dehaze, sharpen, bicubic & Lanczos filters
-- 🖥️ **Katanga Overlay** — float your desktop in VR, toggle mid-game
+- 🖥️ **Katanga ImGui** — the **full control panel floating inside VR**, mouse-driven, hotkey-toggled mid-game
+- 🛟 **Self-healing capture** — instant desktop fallback and automatic recovery when a game hangs or exits
 - ⌨️ **Fully rebindable hotkeys** + VR-controller binding, even while minimized
 - 💾 **Live presets** the viewer hot-reloads
 
@@ -185,6 +186,8 @@ Both share movement amount, zoom amount, smoothing, and an auto-anchor so the vi
 ### 🔒 Head-Lock & Stable Lock
 
 - **Head-Lock** — pins the screen to your head on all axes (with averaged per-eye orientation to cancel HMD toe-in). Works with every shape and stereo mode.
+- **Head-lock modes** — a dropdown picks how the lock behaves: **Default** (hard lock), **Delayed Lock** (the screen catches up after a tunable delay, so micro-jitters never reach it), or **Stable Lock** (below).
+- **DeJitter (soft-lock spring)** — a spring-damper between your head and the screen with **stiffness** and **max-lag** sliders; absorbs head tremor while still following deliberate movement.
 - **Stable Lock** — keeps the screen head-locked but adds a **subtle, fish-tank parallax** via dedicated **Parallax X/Y** and **Parallax Z** sliders, so it still feels anchored in space. Tuned with its own gentle scaling so the sliders cover a usable subtle→strong range.
 
 ---
@@ -223,6 +226,8 @@ Turn head movement into mouse-cursor motion for mouse-look games (Forza, Skyrim,
 - **Both** *(default)* — sends both user-mode paths for maximum compatibility.
 - **Interception** — driver-level input that works in **all** games, including ones that ignore user-mode injection. Requires the free **[Interception driver](https://github.com/oblitum/Interception/releases)** (one-time install + reboot).
 
+> ⚠️ **Anti-cheat caution:** Interception (and ViGEm joystick emulation) are kernel-level input devices, and some anti-cheat systems flag or block them. If a protected game refuses to start or kicks you mid-session, **turn the emulation toggles off before launching the game** and enable them after it's running — or use a user-mode method (Relative/Absolute/Both) instead.
+
 Sensitivity and speed sliders tune the response; a sub-pixel accumulator keeps slow movements from being lost.
 
 ---
@@ -259,16 +264,20 @@ A second, independent output that streams head (and per-controller left/right) d
 
 ## 🛠️ Overlay, Hotkeys & Presets
 
-### 🖥️ Katanga Overlay
+### 🖥️ Katanga ImGui — the control panel *inside* VR
 
-Shows your **Windows desktop as a floating panel in VR**, so you can check the desktop, Discord, or a guide without removing the headset — and toggle it with a hotkey **while you're in a Katanga full-res game**.
+The old desktop-mirror overlay has been replaced by something better: a **full Osiris control panel rendered inside the headset**, driven by your mouse. Press the hotkey to toggle it on/off **while you're in a Katanga full-res game** — no alt-tab, no desktop mirror, no leaving the game.
 
-- **Size** and **Distance** (0.5–5 m each).
+It mirrors essentially the whole desktop GUI, organised in three columns with collapsible advanced groups:
+
+- **Everything tunable mid-game** — stereo mode, screen shape, geometry (with curvature & concave), the full image pipeline (filters, CAS, dehaze, bicubic/Lanczos, Katanga Filters), simulated 6DoF with Directional 6DoF and Depth Layers, the entire edge-stretch system (Hybrid, Mirror, Repeated, Expansion/Extrusion), and the emulation controls (mouse with method dropdown, off-axis tuning, joystick, VR-data UDP).
+- **Top-bar buttons** — **Save** (writes your default preset from inside VR), **Recenter**, **Restart**, **Screenshot**, and **Debug** (diagnostics logging).
+- **Panel controls at the top** — resize the panel (overall size, width ×, height ×), move it (offset X/Y), and set its **distance** (0.5–5 m) from inside the panel itself, or from the desktop GUI's Katanga ImGui section.
 - **Resolution** — 720p / 1080p / 1440p / 4K (sharper text = more GPU memory).
 - **HUD Mode** — on: the panel follows your head; off: it stays fixed in the room.
-- **Show GUI with overlay** — when on, the overlay **hotkey** also brings the Osiris control panel to the front so it appears inside the overlay, and hands focus back to the game when you toggle the overlay off. Tweak settings in-headset, then drop straight back into the game. *(Needs the game in borderless, like the overlay itself.)*
+- **Show GUI with overlay** — optional: the hotkey also brings the desktop Osiris window to the front and hands focus back to the game when you toggle off. *(This focus trick needs the game in borderless; the in-VR panel itself does not.)*
 
-> ⚠️ **Needs borderless:** the overlay only shows **while the game runs in borderless windowed mode** — that's what lets Osiris display the desktop *during* Katanga full-res 3D gaming. Exclusive-fullscreen games won't show it.
+> ✅ **Works in any window mode.** Because the panel renders its own UI as a VR layer (it doesn't capture the desktop), it shows up even over exclusive-fullscreen games — only the optional "Show GUI with overlay" focus hand-off needs borderless.
 
 ---
 
@@ -279,7 +288,7 @@ Every action is rebindable (click-to-bind), saved with presets, and works even w
 - **View:** cycle 3D mode, cycle screen shape, swap eyes
 - **Position:** recenter, move X/Y/Z, zoom in/out, roll left/right
 - **Modes:** toggle head-lock, simulated 6DoF, mouse emulation, joystick emulation, 6DoF UDP
-- **Katanga:** toggle overlay, toggle Katanga Filters, **Force Desktop** (instantly drop to desktop, then auto-return to the game)
+- **Katanga:** toggle the **Katanga ImGui** in-VR panel, toggle Katanga Filters, **Force Desktop** (instantly drop to desktop, then auto-return to the game)
 - **Misc:** screenshot, cycle preset, restart session
 
 > 🎮 **VR controller binding:** these actions can also be triggered from your **VR controllers** in-headset, and those toggles reflect straight back into the GUI checkboxes, so the panel always shows the true state.
@@ -391,9 +400,11 @@ Most issues come down to the **OpenXR runtime**, the **3D source**, or a game's 
 The most common Katanga issue — usually one of these:
 
 - **Use the current [Geo-VRExport / Super-VRExport addon](https://github.com/BerZerker96/Super-VRExport-Addon).** Older addon builds re-published the shared-texture handle on *every* ReShade effect reload, which could leave the viewer reading a freed handle and freeze. The current build only re-publishes when the source actually changes, so the handle stays stable.
-- **Launch the viewer *before* the game.** Osiris can only fall back to a desktop it has actually seen. Start `osiris-vr-viewer.exe` first (so it captures your desktop), *then* launch the game — now any hang, crash, or exit drops you straight back to the desktop.
+- **Launch the viewer *before* the game.** The viewer **seeds a desktop snapshot at startup** specifically so it always has a real desktop image to fall back to. Start `osiris-vr-viewer.exe` first, *then* launch the game — now any hang, crash, or exit drops you straight back to the desktop (the snapshot shows instantly while the live capture recovers).
 - **Run the game in borderless windowed mode**, not exclusive fullscreen. Exclusive fullscreen blocks both the overlay and the desktop fallback.
 - **If a game truly hangs** (its render thread dies), the viewer holds a clean neutral frame instead of the frozen image and returns to the desktop the moment you close the hung game — it no longer thrashes or restart-loops. If you launched the viewer into an already-running game that then hung, just close the game and it recovers.
+- **Automatic recovery is layered.** On exit the viewer shows its desktop snapshot immediately, re-initialises the desktop capture about once a second until it's live again, and — if both sources stay dead — performs an **automatic session restart** as a final safety net (capped so it can never restart-loop). You should rarely see anything but a brief snapshot before the live desktop returns.
+- **Reporting a bug?** Toggle **Debug** (in the GUI or the in-VR panel) to write `osiris-diagnostics.log` next to the exes and include it with `osiris.log`.
 - **For Katanga full-res, use your headset's native OpenXR runtime** — the SteamVR runtime performs poorly with Katanga specifically (see [Runtimes](#-runtimes-openxr-vs-steamvr)).
 
 ### 🚫 The viewer won't start / "form factor … not available" / "device not available"
@@ -414,9 +425,10 @@ The most common Katanga issue — usually one of these:
 
 - Pick the **correct stereo mode** for your source, and use the **Swap eyes** hotkey if the depth looks inverted.
 
-### 🖥️ Katanga Overlay won't appear
+### 🖥️ Katanga ImGui panel won't appear or won't respond
 
-- The overlay only works while the **game runs in borderless windowed mode**. Exclusive-fullscreen games can't show it.
+- Make sure it's **enabled** (Katanga ImGui section in the GUI) and bound to a **hotkey**, then toggle it in-game. The panel renders as its own VR layer, so it works in **any** window mode — only the optional "Show GUI with overlay" focus hand-off needs borderless.
+- The panel is **mouse-driven**: move your physical mouse to move the panel cursor. If clicks go to the game instead, toggle the panel off/on with the hotkey to re-grab the cursor.
 
 ### 🟣 Flicker or ATW drag (especially Pimax)
 
