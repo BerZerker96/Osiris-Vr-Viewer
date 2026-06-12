@@ -35,7 +35,7 @@ It's a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@
 
 <div align="center">
 
-<img width="4764" height="2904" alt="Gemini_Generated_Image_4fhcem4fhcem4fhc - Copy" src="https://github.com/user-attachments/assets/25e76fea-8df3-472f-8ba9-e942727fc3a9" />
+<img width="4764" height="2904" alt="Gemini_Generated_Image_4fhcem4fhcem4fhc" src="https://github.com/user-attachments/assets/1b2ded9d-0bc8-4131-b4ce-4296f6ad3527" />
 
 
 *A few of the games people play in stereoscopic 3D through Osiris*
