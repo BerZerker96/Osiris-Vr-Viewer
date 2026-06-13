@@ -84,7 +84,7 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 
 <div align="center">
 
-<img width="2618" height="1529" alt="2026-06-12 10_35_58-OSIRIS VR VIEWER" src="https://github.com/user-attachments/assets/ae0f381b-90e7-4f7c-aecd-331a743ca791" />
+<img width="2704" height="1541" alt="2026-06-13 21_52_50-" src="https://github.com/user-attachments/assets/ad6f6172-85e8-4740-9c75-84c2a0fd7486" />
 
 
 *The Osiris control panel — every setting is a live slider, fully themeable, with custom backgrounds.*
