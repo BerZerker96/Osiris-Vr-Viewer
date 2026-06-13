@@ -289,7 +289,7 @@ It mirrors essentially the whole desktop GUI, organised in three columns with co
 
 - **Everything tunable mid-game** — stereo mode, screen shape, geometry (with curvature & concave), the full image pipeline (filters, CAS, dehaze, bicubic/Lanczos, Katanga Filters), simulated 6DoF with Directional 6DoF and Depth Layers, and the entire edge-stretch system (Hybrid, Mirror, Repeated, Expansion/Extrusion).
 - **Full input & tracking controls in-VR** — **Mouse Emu** (sensitivity, speed, method dropdown, off-axis window tuning), **Joystick Emu** (sensitivity, speed X/Y, smoothness, deadzone, max angle, invert X/Y), and a dedicated **6DOF MODS** section with the UDP-stream toggle, all **six axis gain sliders** (yaw / pitch / roll / X / Y / Z), the **TrackIR Game** toggle, and VR-data-to-UDP — so you can set up and tune head-driven control without ever leaving the headset.
-- **Top-bar buttons** — **Save** (writes your default preset from inside VR), **Recenter**, **Restart**, **Screenshot**, and **Debug** (diagnostics logging).
+- **Top-bar buttons** — **Recenter**,**Screenshot**
 - **Panel controls at the top** — resize the panel (overall size, width ×, height ×), move it (offset X/Y), and set its **distance** (0.5–5 m) from inside the panel itself, or from the desktop GUI's Katanga ImGui section.
 - **Resolution** — 720p / 1080p / 1440p / 4K (sharper text = more GPU memory).
 - **HUD Mode** — on: the panel follows your head; off: it stays fixed in the room.
