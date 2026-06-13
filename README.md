@@ -76,6 +76,8 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 
 > Keep a `presets/` folder next to the exes for saved configurations.
 
+> 🛡️ **Run both `.exe` files as Administrator (recommended).** Right-click each → **Properties → Compatibility → "Run this program as an administrator"** (do it for **both** `osiris-vr-viewer.exe` and `osiris-gui.exe`). Windows blocks a normal-privilege program from sending input to a higher-privilege window, so without elevation the **global hotkeys**, **mouse emulation**, and **gamepad emulation** can silently fail to reach games that run elevated or grab input exclusively. Running elevated forces all three to work across **every** game, in **borderless *and* exclusive-fullscreen** alike.
+
 > ⚠️ **Wired only — no wireless streaming.** Osiris relies on a shared-GPU-texture path that wireless streaming does **not** expose, so it **will not work over Virtual Desktop (or other wireless/streamed runtimes)**. Use a wired headset on a native or SteamVR OpenXR runtime.
 
 ---
@@ -99,6 +101,7 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 - 🪟 **Two parallax modes** — follow, or an off-axis "window" feel — plus subtle **Stable Lock**
 - 🖱️ **Mouse emulation** and 🎮 **gamepad emulation** — control games with your head
 - 📡 **6DoF tracking output** over UDP (OpenTrack format) for community 6DoF mods
+- 🎯 **TrackIR / FreeTrack output** — drive native TrackIR games (DCS, Elite Dangerous, ETS2, Assetto Corsa, ARMA…) directly with your head, no UDP middleman
 - 🎛️ **Rich image pipeline** — CAS, dehaze, sharpen, bicubic & Lanczos filters
 - 🖥️ **Katanga ImGui** — the **full control panel floating inside VR**, mouse-driven, hotkey-toggled mid-game
 - 🛟 **Self-healing capture** — instant desktop fallback and automatic recovery when a game hangs or exits
@@ -200,9 +203,10 @@ Turns head **rotation** (yaw / pitch / roll) into a small position shift with pe
 
 ### 🌀 Motion & frame features *(experimental)*
 
-> ⚠️ **Optical flow, Temporal blend, and Frame pacing are experimental.** They can smooth motion but may also add artefacts (ghosting, shimmer) or pacing hitches. Enable one at a time and turn off if you see issues.
+> ⚠️ **These motion features are experimental.** They can smooth motion but may also add artefacts (ghosting, shimmer) or pacing hitches. Enable one at a time and turn off if you see issues.
 
-- **Optical flow** — motion extrapolation (sub-pixel, framerate-independent).
+- **Optical flow extrapolation** — motion extrapolation (sub-pixel, framerate-independent) that warps the image forward in time to fill judder on low-framerate content. Works on **every source** (Katanga, desktop, any stereo layout). Strength slider 0.3 (subtle) → 1.0 (full).
+- **Frame interpolation** *(Katanga source)* — synthesises in-between frames toward your refresh rate for smoother low-fps motion, costing ~1 source frame of latency. Strength 0 = a safe crossfade, 1 = full motion compensation. A built-in guard makes it fall back to the real frame whenever it can't interpolate safely, so it never dims the image.
 - **Temporal blend** — smooths frame-to-frame transitions.
 - **Frame pacing** — submits within a target slice of the frame.
 - **Pose prediction (ms)** — extra prediction to reduce drag/flicker on some headsets (see [Pimax notes](#-pimax-users--fixing-flicker)).
@@ -256,6 +260,19 @@ Streams your head pose in **OpenTrack format** to any UDP listener, to drive com
 
 ---
 
+### 🎯 TrackIR Game output (FreeTrack shared memory)
+
+Drives **native TrackIR / FreeTrack games directly** — no OpenTrack or UDP in between. Instead of sending packets over the network, Osiris writes your head pose into the standard **FreeTrack shared-memory interface (`FT_SharedMem`)** that hundreds of titles read for "TrackIR" head-look — **DCS World, Elite Dangerous, Euro Truck Simulator 2, Assetto Corsa, ARMA, Falcon BMS**, and the rest of the FreeTrack/TrackIR-Enhanced library.
+
+- Enabled by the **"TrackIR Game"** toggle in the **6DoF MODS** section (desktop GUI *and* the in-VR panel).
+- **It redirects, it doesn't duplicate.** Turn it on and the UDP stream above is suppressed, so the same head pose goes to the game's TrackIR interface instead. Turn it off and the UDP path is exactly as before.
+- Uses the **same per-axis flip / gain tuning** as the UDP output — if an axis points the wrong way in-game, flip it with the same controls. (FreeTrack units: rotation in radians, position in millimetres, handled for you.)
+- Enable **TrackIR / head-tracking** in the game's own options so it reads the interface.
+
+> ℹ️ **Most FreeTrack-native games (DCS, Elite, ETS2, Assetto, ARMA…) work with the toggle alone** — they read the shared region directly. A few **NPClient-only** titles also need a `NPClient.dll` shim in the game's folder; Osiris does **not** ship one (the common community DLL is a GPL-derived FreeTrack translation with a contested redistribution license), but if you already run OpenTrack you can point its existing NPClient DLL at the same `FT_SharedMem` region.
+
+---
+
 ### 🔌 VR Data to UDP (FreePIE / VRCompanion)
 
 A second, independent output that streams head (and per-controller left/right) data to companion apps like **[FreePIE](https://github.com/Ofisare/FreePIE)** and **[VRCompanion](https://github.com/Ofisare/VRCompanion)** — its own IP/port, per-axis flips, and gains — for setups that don't use the OpenTrack path above.
@@ -268,9 +285,10 @@ A second, independent output that streams head (and per-controller left/right) d
 
 The old desktop-mirror overlay has been replaced by something better: a **full Osiris control panel rendered inside the headset**, driven by your mouse. Press the hotkey to toggle it on/off **while you're in a Katanga full-res game** — no alt-tab, no desktop mirror, no leaving the game.
 
-It mirrors essentially the whole desktop GUI, organised in three columns with collapsible advanced groups:
+It mirrors essentially the whole desktop GUI, organised in three columns with collapsible advanced groups and **colour-coded section headers** so each feature group is easy to pick out at a glance:
 
-- **Everything tunable mid-game** — stereo mode, screen shape, geometry (with curvature & concave), the full image pipeline (filters, CAS, dehaze, bicubic/Lanczos, Katanga Filters), simulated 6DoF with Directional 6DoF and Depth Layers, the entire edge-stretch system (Hybrid, Mirror, Repeated, Expansion/Extrusion), and the emulation controls (mouse with method dropdown, off-axis tuning, joystick, VR-data UDP).
+- **Everything tunable mid-game** — stereo mode, screen shape, geometry (with curvature & concave), the full image pipeline (filters, CAS, dehaze, bicubic/Lanczos, Katanga Filters), simulated 6DoF with Directional 6DoF and Depth Layers, and the entire edge-stretch system (Hybrid, Mirror, Repeated, Expansion/Extrusion).
+- **Full input & tracking controls in-VR** — **Mouse Emu** (sensitivity, speed, method dropdown, off-axis window tuning), **Joystick Emu** (sensitivity, speed X/Y, smoothness, deadzone, max angle, invert X/Y), and a dedicated **6DOF MODS** section with the UDP-stream toggle, all **six axis gain sliders** (yaw / pitch / roll / X / Y / Z), the **TrackIR Game** toggle, and VR-data-to-UDP — so you can set up and tune head-driven control without ever leaving the headset.
 - **Top-bar buttons** — **Save** (writes your default preset from inside VR), **Recenter**, **Restart**, **Screenshot**, and **Debug** (diagnostics logging).
 - **Panel controls at the top** — resize the panel (overall size, width ×, height ×), move it (offset X/Y), and set its **distance** (0.5–5 m) from inside the panel itself, or from the desktop GUI's Katanga ImGui section.
 - **Resolution** — 720p / 1080p / 1440p / 4K (sharper text = more GPU memory).
@@ -379,6 +397,8 @@ build.bat clean      # or: cargo build --release
 
 **6DoF UDP (e.g. RE Requiem):** point the game's OpenTrack listener at `127.0.0.1:4242`, enable the UDP stream in the GUI, and flip any axis that points the wrong way.
 
+**TrackIR games (DCS, Elite, ETS2, Assetto…):** enable **TrackIR Game** in the 6DoF MODS section and turn on TrackIR / head-tracking in the game's own options — Osiris feeds the FreeTrack interface directly (this redirects the head pose away from the UDP stream while it's on). Flip any axis that points the wrong way with the same per-axis controls.
+
 ---
 
 ## 📋 Tested
@@ -436,10 +456,16 @@ The most common Katanga issue — usually one of these:
 ### 🖱️ Mouse emulation doesn't move the game, or over-rotates
 
 - Start with **Both**, switch to **Relative** if the game over-rotates, or **Absolute** if it ignores Relative (turn off Hardware Cursor in games like Witcher 3). For anti-cheat or stubborn games, use the **Interception** driver.
+- **If a game ignores the cursor entirely** (especially elevated or fullscreen titles), **run both `.exe` files as Administrator** — Windows blocks unelevated input injection into elevated games (see [Requirements](#-requirements)).
 
 ### 🎮 Joystick emulation does nothing
 
 - Install the free **[ViGEmBus driver](https://github.com/nefarius/ViGEmBus/releases)** (one-time install).
+- If it still does nothing in a specific game, **run both `.exe` files as Administrator** so the virtual pad can reach elevated / fullscreen titles (see [Requirements](#-requirements)).
+
+### ⌨️ Hotkeys do nothing in a game
+
+- **Run both `.exe` files as Administrator.** Global hotkeys (and mouse / gamepad emulation) can't reach a game that runs at a higher privilege level than Osiris unless Osiris is elevated too. Right-click each exe → Properties → Compatibility → "Run this program as an administrator" (see [Requirements](#-requirements)).
 
 ### 🐌 Dropped frames / stutter
 
@@ -459,7 +485,7 @@ The most common Katanga issue — usually one of these:
 - **[Geo3D-Installer](https://github.com/Flugan/Geo3D-Installer)** by [@Flugan](https://github.com/Flugan)
 - **[SuperDepth3D / Depth3D](https://github.com/BlueSkyDefender/Depth3D)** by [@BlueSkyDefender](https://github.com/BlueSkyDefender)
 - **[wiz3D](https://github.com/effcol/wiz3D)** by [@effcol](https://github.com/effcol)
-- **[OpenTrack](https://github.com/opentrack/opentrack)** — wire format reference for the 6DoF UDP output
+- **[OpenTrack](https://github.com/opentrack/opentrack)** — wire-format reference for the 6DoF UDP output and the FreeTrack / TrackIR shared-memory interface used by the TrackIR Game output
 
 ---
 
