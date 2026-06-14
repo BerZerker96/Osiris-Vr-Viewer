@@ -97,7 +97,7 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 
 - 🎬 **7 stereo modes**, including a true Checkerboard demux for SuperDepth3D
 - 🌐 **3 screen shapes** — sphere, box theatre, fisheye dome — with mesh extrusion
-- 🧊 **Depth controls** — separation, convergence, dynamic depth, 5-zone depth layers
+- 🧊 **Depth controls** — separation, convergence, dynamic depth, 10-layer depth layers
 - 🪟 **Two parallax modes** — follow, or an off-axis "window" feel — plus subtle **Stable Lock**
 - 🖱️ **Mouse emulation** and 🎮 **gamepad emulation** — control games with your head
 - 📡 **6DoF tracking output** over UDP (OpenTrack format) for community 6DoF mods
@@ -171,7 +171,7 @@ Fill the periphery beyond the source rectangle for a more immersive, wrap-around
 - **Separation** — how far apart the two eye images are (0–3). Higher = more 3D pop, lower = flatter.
 - **Convergence** — slides the comfortable focal plane in or out of the screen.
 - **Dynamic Depth** — links leaning in/out to convergence and separation (with optional **looming**) so the scene gently expands as you move. (Pauses while Stable Lock is on.)
-- **Depth Layers** — a 5-zone "diorama": each ring of the image shifts by a different amount as you sway, for a soft,sense of depth on flat 3D. Controls for strength, separation, follow-through delay, falloff curve, zoom-deepening, and reach.
+- **Depth Layers** — a 10-layer "diorama": ten concentric rings (centre → rim) each shift by a different amount as you sway, for a soft sense of depth on flat 3D. A per-layer **follow-through delay** ripples motion through the rings like a cascade, and an **Invert delay** toggle flips which end leads — *inner closest* (delay spreads outward) or *outer closest* (delay spreads inward). Moving **forward/back also zooms** the rings — leaning in magnifies, leaning back shrinks (a dolly-zoom tunnel), with the same per-ring delay rippling through it. A **Convex** control domes the centre of that zoom area outward like a magnifier/lens, intensifying as you lean in. Controls for strength, separation, delay, invert, in/out zoom, convex, falloff curve, and reach.
 
 ---
 
@@ -260,16 +260,56 @@ Streams your head pose in **OpenTrack format** to any UDP listener, to drive com
 
 ---
 
-### 🎯 TrackIR Game output (FreeTrack shared memory)
+### 🎯 TrackIR Game output (FreeTrack / NPClient)
 
-Drives **native TrackIR / FreeTrack games directly** — no OpenTrack or UDP in between. Instead of sending packets over the network, Osiris writes your head pose into the standard **FreeTrack shared-memory interface (`FT_SharedMem`)** that hundreds of titles read for "TrackIR" head-look — **DCS World, Elite Dangerous, Euro Truck Simulator 2, Assetto Corsa, ARMA, Falcon BMS**, and the rest of the FreeTrack/TrackIR-Enhanced library.
+Drives **native TrackIR games directly** — no OpenTrack or UDP in between — using your head pose. Osiris writes that pose into the standard **FreeTrack shared-memory block (`FT_SharedMem`)** that the whole TrackIR / FreeTrack-Enhanced library is built around — **DCS World, Elite Dangerous, Euro Truck Simulator 2, Assetto Corsa, ARMA, Falcon BMS, Everspace 2**, and the rest.
 
 - Enabled by the **"TrackIR Game"** toggle in the **6DoF MODS** section (desktop GUI *and* the in-VR panel).
 - **It redirects, it doesn't duplicate.** Turn it on and the UDP stream above is suppressed, so the same head pose goes to the game's TrackIR interface instead. Turn it off and the UDP path is exactly as before.
-- Uses the **same per-axis flip / gain tuning** as the UDP output — if an axis points the wrong way in-game, flip it with the same controls. (FreeTrack units: rotation in radians, position in millimetres, handled for you.)
-- Enable **TrackIR / head-tracking** in the game's own options so it reads the interface.
+- Uses the **same per-axis flip / gain tuning** as the UDP output — if an axis points the wrong way in-game, flip it with the same controls. (Units are handled for you: rotation in radians, position in millimetres.)
 
-> ℹ️ **Most FreeTrack-native games (DCS, Elite, ETS2, Assetto, ARMA…) work with the toggle alone** — they read the shared region directly. A few **NPClient-only** titles also need a `NPClient.dll` shim in the game's folder; Osiris does **not** ship one (the common community DLL is a GPL-derived FreeTrack translation with a contested redistribution license), but if you already run OpenTrack you can point its existing NPClient DLL at the same `FT_SharedMem` region.
+> ⚠️ **The toggle alone is not enough — you also need the bridge DLL (one-time setup).** Games never read `FT_SharedMem` themselves; every TrackIR game loads a small **`NPClient64.dll`** and asks *it* for the data. Osiris ships its own bridge DLL for this — build it and drop it where the game looks (see **[TrackIR setup](#-trackir-setup-one-time)** below). It's a clean **ISC/MIT-licensed** build (based on OpenTrack's `npclient.c`, *not* the GPL FreeTrack DLL), so no OpenTrack install is required.
+
+---
+
+### 🎯 TrackIR setup (one-time)
+
+The viewer publishes your head pose to shared memory the moment you flip **TrackIR Game** on. The bridge **`NPClient64.dll`** is what carries it the last step into the game. You build the DLL once, then place it where each game looks.
+
+```
+Osiris viewer  --writes-->  FT_SharedMem  --read by-->  NPClient64.dll  -->  game
+```
+
+**1 — Build the bridge DLL** (just double-click it — no cargo, separate from the viewer):
+
+```bat
+osiris-npclient\build-npclient.bat        REM double-click it, or run from any cmd
+```
+
+This produces **`NPClient64.dll`** in `osiris-npclient\`. The script auto-detects the Visual Studio C++ tools (the same ones the viewer build uses) and sets them up itself, and the window stays open so you can read the result. For a rare 32-bit game, run `build-npclient.bat 32` to get `NPClient.dll`.
+
+**2 — Put the DLL where the game looks.** There are two kinds of game:
+
+- **Registry-based games — DCS, Elite, ETS2, Assetto, Falcon BMS, ARMA…**
+  Keep the DLL in a folder (e.g. `C:\Osiris\trackir\`) and point one registry value at it:
+  ```
+  HKEY_CURRENT_USER\Software\NaturalPoint\NATURALPOINT\NPClient Location
+      Path  (String)  =  C:\Osiris\trackir
+  ```
+  Set it once with `regedit` (or a `.reg` file); the game then loads your DLL from there.
+
+- **Game-folder games — Everspace 2 (and other Unreal TrackIR-plugin titles)**
+  These ignore the registry and load a copy bundled **inside the game**. Replace that copy:
+  1. Open the game's TrackIR plugin folder, e.g.
+     `…\steamapps\common\EVERSPACE™ 2\ES2\Plugins\TrackIR\…\NPClient\Win64\`
+  2. **Rename the existing `NPClient64.dll` → `NPClient64.dll.bak`** (keep the backup).
+  3. Drop **this** `NPClient64.dll` in its place.
+
+**3 — Turn it on.** Flip **TrackIR Game** in Osiris, enable **TrackIR / head-tracking** in the game's own control options, and look around. If an axis is reversed, flip it with the per-axis controls — inverted pitch is common and expected.
+
+> 📄 Full details, the data mapping, and licensing are in **`osiris-npclient/README.md`**.
+
+> 🪪 **Why a separate DLL at all?** It's not a limitation of Osiris — *every* TrackIR tracker (real TrackIR, OpenTrack, vorpX) works this exact way, because the game is hard-wired to load `NPClient64.dll` and call it. Even plain OpenTrack needs this DLL copied into the Everspace 2 folder. Building your own just means you don't need OpenTrack to get it.
 
 ---
 
@@ -397,7 +437,7 @@ build.bat clean      # or: cargo build --release
 
 **6DoF UDP (e.g. RE Requiem):** point the game's OpenTrack listener at `127.0.0.1:4242`, enable the UDP stream in the GUI, and flip any axis that points the wrong way.
 
-**TrackIR games (DCS, Elite, ETS2, Assetto…):** enable **TrackIR Game** in the 6DoF MODS section and turn on TrackIR / head-tracking in the game's own options — Osiris feeds the FreeTrack interface directly (this redirects the head pose away from the UDP stream while it's on). Flip any axis that points the wrong way with the same per-axis controls.
+**TrackIR games (DCS, Elite, ETS2, Assetto, Everspace 2…):** do the one-time **[TrackIR setup](#-trackir-setup-one-time)** (build the bridge `NPClient64.dll` and place it for your game), then enable **TrackIR Game** in the 6DoF MODS section and turn on TrackIR / head-tracking in the game's own options. Turning the toggle on redirects the head pose away from the UDP stream. Flip any axis that points the wrong way with the same per-axis controls.
 
 ---
 
