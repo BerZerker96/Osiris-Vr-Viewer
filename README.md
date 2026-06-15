@@ -38,7 +38,7 @@ It's a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@
 <img width="4764" height="2904" alt="Gemini_Generated_Image_4fhcem4fhcem4fhc" src="https://github.com/user-attachments/assets/61c862e1-735e-448a-9b6c-786dc78b6410" />
 
 
-*A few of the games people play in stereoscopic 3D through Osiris*
+*A few of the games in stereoscopic 3D through Osiris*
 
 </div>
 
@@ -76,7 +76,7 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 
 > Keep a `presets/` folder next to the exes for saved configurations.
 
-> 🛡️ **Run both `.exe` files as Administrator (recommended).** Right-click each → **Properties → Compatibility → "Run this program as an administrator"** (do it for **both** `osiris-vr-viewer.exe` and `osiris-gui.exe`). Windows blocks a normal-privilege program from sending input to a higher-privilege window, so without elevation the **global hotkeys**, **mouse emulation**, and **gamepad emulation** can silently fail to reach games that run elevated or grab input exclusively. Running elevated forces all three to work across **every** game, in **borderless *and* exclusive-fullscreen** alike.
+> ⚠️ **Run both `.exe` files as Administrator (recommended).** Right-click each → **Properties → Compatibility → "Run this program as an administrator"** (do it for **both** `osiris-vr-viewer.exe` and `osiris-gui.exe`). Windows blocks a normal-privilege program from sending input to a higher-privilege window, so without elevation the **global hotkeys**, **mouse emulation**, and **gamepad emulation** can silently fail to reach games that run elevated or grab input exclusively. Running elevated forces all three to work across **every** game, in **borderless *and* exclusive-fullscreen** alike.
 
 > ⚠️ **Wired only — no wireless streaming.** Osiris relies on a shared-GPU-texture path that wireless streaming does **not** expose, so it **will not work over Virtual Desktop (or other wireless/streamed runtimes)**. Use a wired headset on a native or SteamVR OpenXR runtime.
 
@@ -87,7 +87,7 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 <img width="2477" height="1495" alt="2026-06-15 17_02_17-OSIRIS VR VIEWER" src="https://github.com/user-attachments/assets/7d55d5bc-f4c4-4f49-825a-dcb55101fba4" />
 
 
-*The Osiris control panel — every setting is a live slider, fully themeable, with custom backgrounds.*
+*The Osiris control panel*
 
 </div>
 
@@ -118,7 +118,6 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 
 1. **Katanga / geo-11** — the shared 3D texture from a geo-11 game, captured directly with no extra copy.
 2. **Desktop Duplication** — captures the Windows desktop for non-Katanga sources (e.g. SuperDepth3D / Geo3D via ReShade, if you're not using the VRExport shared texture).
-3. **Desktop capture (Linux/Unix builds).**
 
 When a geo-11 game starts, the viewer **hot-swaps** to the full-res Katanga source automatically — no restart — and **reconnects seamlessly** if the game changes the shared texture mid-session. On game exit it falls back to the desktop on its own.
 
@@ -279,13 +278,8 @@ The viewer publishes your head pose to shared memory the moment you flip **Track
 Osiris viewer  --writes-->  FT_SharedMem  --read by-->  NPClient64.dll  -->  game
 ```
 
-**1 — Build the bridge DLL** (just double-click it — no cargo, separate from the viewer):
+**1 — take the trackir NPClient64.dll included in the main release
 
-```bat
-osiris-npclient\build-npclient.bat        REM double-click it, or run from any cmd
-```
-
-This produces **`NPClient64.dll`** in `osiris-npclient\`. The script auto-detects the Visual Studio C++ tools (the same ones the viewer build uses) and sets them up itself, and the window stays open so you can read the result. For a rare 32-bit game, run `build-npclient.bat 32` to get `NPClient.dll`.
 
 **2 — Put the DLL where the game looks.** There are two kinds of game:
 
@@ -322,15 +316,14 @@ A second, independent output that streams head (and per-controller left/right) d
 
 ### 🖥️ Katanga ImGui — the control panel *inside* VR
 
-The old desktop-mirror overlay has been replaced by something better: a **full Osiris control panel rendered inside the headset**, driven by your mouse. Press the hotkey to toggle it on/off **while you're in a Katanga full-res game** — no alt-tab, no desktop mirror, no leaving the game.
+a **full Osiris control panel rendered inside the headset**, driven by your mouse. Press the hotkey to toggle it on/off **while you're in a Katanga full-res game** — no alt-tab, no desktop mirror, no leaving the game.
 
-It mirrors essentially the whole desktop GUI, organised in three columns with collapsible advanced groups and **colour-coded section headers** so each feature group is easy to pick out at a glance:
+It mirrors essentially the whole desktop GUI, organised in four columns with collapsible advanced groups and **colour-coded section headers** so each feature group is easy to pick out at a glance:
 
 - **Everything tunable mid-game** — stereo mode, screen shape, geometry (with curvature & concave), the full image pipeline (filters, CAS, dehaze, bicubic/Lanczos, Katanga Filters), simulated 6DoF with Directional 6DoF and Depth Layers, and the entire edge-stretch system (Hybrid, Mirror, Repeated, Expansion/Extrusion).
 - **Full input & tracking controls in-VR** — **Mouse Emu** (sensitivity, speed, method dropdown, off-axis window tuning), **Joystick Emu** (sensitivity, speed X/Y, smoothness, deadzone, max angle, invert X/Y), and a dedicated **6DOF MODS** section with the UDP-stream toggle, all **six axis gain sliders** (yaw / pitch / roll / X / Y / Z), the **TrackIR Game** toggle, and VR-data-to-UDP — so you can set up and tune head-driven control without ever leaving the headset.
 - **Top-bar buttons** — **Recenter**,**Screenshot**
 - **Panel controls at the top** — resize the panel (overall size, width ×, height ×), move it (offset X/Y), and set its **distance** (0.5–5 m) from inside the panel itself, or from the desktop GUI's Katanga ImGui section.
-- **Resolution** — 720p / 1080p / 1440p / 4K (sharper text = more GPU memory).
 - **HUD Mode** — on: the panel follows your head; off: it stays fixed in the room.
 
 > ✅ **Works in any window mode.** Because the panel renders its own UI as a VR layer (it doesn't capture the desktop), it shows up even over exclusive-fullscreen games — only the optional "Show GUI with overlay" focus hand-off needs borderless.
@@ -453,15 +446,6 @@ build.bat clean      # or: cargo build --release
 
 Most issues come down to the **OpenXR runtime**, the **3D source**, or a game's **window mode**. Start here.
 
-### 🎮 Katanga game freezes, or the viewer stays stuck after a game hangs or exits
-
-The most common Katanga issue — usually one of these:
-
-- **Use the current [Geo-VRExport / Super-VRExport addon](https://github.com/BerZerker96/Super-VRExport-Addon).** Older addon builds re-published the shared-texture handle on *every* ReShade effect reload, which could leave the viewer reading a freed handle and freeze. The current build only re-publishes when the source actually changes, so the handle stays stable.
-- **Launch the viewer *before* the game.** The viewer **seeds a desktop snapshot at startup** specifically so it always has a real desktop image to fall back to. Start `osiris-vr-viewer.exe` first, *then* launch the game — now any hang, crash, or exit drops you straight back to the desktop (the snapshot shows instantly while the live capture recovers).
-- **Run the game in borderless windowed mode**, not exclusive fullscreen. Exclusive fullscreen blocks both the overlay and the desktop fallback.
-- **If a game truly hangs** (its render thread dies), the viewer holds a clean neutral frame instead of the frozen image and returns to the desktop the moment you close the hung game — it no longer thrashes or restart-loops. If you launched the viewer into an already-running game that then hung, just close the game and it recovers.
-- **Automatic recovery is layered.** On exit the viewer shows its desktop snapshot immediately, re-initialises the desktop capture about once a second until it's live again, and — if both sources stay dead — performs an **automatic session restart** as a final safety net (capped so it can never restart-loop). You should rarely see anything but a brief snapshot before the live desktop returns.
 - **Reporting a bug?** Toggle **Debug** (in the GUI or the in-VR panel) to write `osiris-diagnostics.log` next to the exes and include it with `osiris.log`.
 - **For Katanga full-res, use your headset's native OpenXR runtime** — the SteamVR runtime performs poorly with Katanga specifically (see [Runtimes](#-runtimes-openxr-vs-steamvr)).
 
