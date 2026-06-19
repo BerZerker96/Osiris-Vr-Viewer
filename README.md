@@ -55,8 +55,8 @@ Install the mod into your game as its own docs say, then let Osiris pick up the 
 | **SuperDepth3D** | [Depth3D (BlueSkyDefender)](https://github.com/BlueSkyDefender/Depth3D) | ReShade depth-based 3D — works on almost any game. |
 | **wiz3D** | [wiz3D (effcol)](https://github.com/effcol/wiz3D) | geometry 3D injector. |
 
-> **🆕 🎯🎯🎯 ⚠️⚠️⚠️ Best Camera Tracking Mods FULL 6DOF — [6DOF MODS](https://github.com/itsloopyo/itsloopyo))**
-> Highly recommended 6dof mods for various games , new releases regularly and join the project discord to try wip mods https://discord.gg/Vb9JEgArV .
+> **🆕 🎯🎯🎯 ⚠️⚠️⚠️ Best Camera Tracking Mods FULL 6DOF — [6DOF MODS by itsloopyo](https://github.com/itsloopyo/itsloopyo)**
+> Highly recommended 6dof mods for various games , new releases regularly and join the project discord to try wip mods [Discord]([https://github.com/itsloopyo/itsloopyo](https://discord.gg/Vb9JEgArV).
  
 > **🆕 Best full-res capture — [Super-VRExport / Geo-VRExport addon](https://github.com/BerZerker96/Super-VRExport-Addon)**
 > The preferred way to get **full-resolution SBS** out of **SuperDepth3D** and **Geo3D** into Osiris. Use it in place of older half-res export paths.
