@@ -128,7 +128,7 @@ When a geo-11 game starts, the viewer **hot-swaps** to the full-res Katanga sour
 
 ### 👓 Stereo modes
 
-Mono · Half-SBS · Full-SBS (geo-11 mods) · Half-TAB · Full-TAB · Line-Interlaced (passive 3D TVs) · **Checkerboard 3D** (DLP / SuperDepth3D, with a parity-exact demux).
+Mono · Half-SBS · Full-SBS (geo-11 mods) · Half-TAB · Full-TAB · Line-Interlaced (passive 3D TVs) · **Checkerboard 3D** (DLP /with a parity-exact demux).
 
 ---
 
