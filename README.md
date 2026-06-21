@@ -98,7 +98,7 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 
 ## 🚀 At a glance
 
-- 🎬 **7 stereo modes**, including a true Checkerboard demux for SuperDepth3D
+- 🎬 **7 stereo modes**, including a true Checkerboard and Interlaced 
 - 🌐 **3 screen shapes** — sphere, box theatre, fisheye dome — with mesh extrusion
 - 🧊 **Depth controls** — separation, convergence, dynamic depth, 10-layer depth layers
 - 🪟 **Two parallax modes** — follow, or an off-axis "window" feel — plus subtle **Stable Lock**
