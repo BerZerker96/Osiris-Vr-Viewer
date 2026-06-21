@@ -81,7 +81,7 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 
 > ⚠️ **Run both `.exe` files as Administrator (recommended).** Right-click each → **Properties → Compatibility → "Run this program as an administrator"** (do it for **both** `osiris-vr-viewer.exe` and `osiris-gui.exe`). Windows blocks a normal-privilege program from sending input to a higher-privilege window, so without elevation the **global hotkeys**, **mouse emulation**, and **gamepad emulation** can silently fail to reach games that run elevated or grab input exclusively. Running elevated forces all three to work across **every** game, in **borderless *and* exclusive-fullscreen** alike.
 
-> ⚠️ **Wired only — no wireless streaming.** Osiris relies on a shared-GPU-texture path that wireless streaming does **not** expose, so it **will not work over Virtual Desktop (or other wireless/streamed runtimes)**. Use a wired headset on a native or SteamVR OpenXR runtime.
+> ⚠️ **Wired only — no wireless streaming.** Osiris relies on a shared-GPU-texture path that wireless streaming does **not** expose, so it **will not work over Virtual Desktop (or other wireless/streamed runtimes)**. Use a wired headset on a native OpenXR or SteamVR OpenXR runtime.
 
 ---
 
