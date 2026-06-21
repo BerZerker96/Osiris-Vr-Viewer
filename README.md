@@ -406,20 +406,6 @@ If you get flicker / ATW drag on Pimax, try in order:
 
 ---
 
-## ⚙️ Build
-
-Requires **Rust 1.74+** and the **Vulkan SDK** on Windows.
-
-```sh
-git clone https://github.com/<your-org>/osiris-vr-viewer
-cd osiris-vr-viewer
-build.bat clean      # or: cargo build --release
-```
-
-`build.bat` builds in release and renames the binaries to `osiris-vr-viewer.exe` and `osiris-gui.exe` (Cargo package names can't have spaces, so the rename happens after build). Output lands in `target/release/`.
-
----
-
 ## 🎮 Usage
 
 1. Set your **OpenXR runtime** active (native or SteamVR — see [Runtimes](#-runtimes-openxr-vs-steamvr)).
@@ -520,11 +506,3 @@ Most issues come down to the **OpenXR runtime**, the **3D source**, or a game's 
 <img width="3420" height="4048" alt="osiris_screenshot_20260608_223635" src="https://github.com/user-attachments/assets/d8eb207c-bea3-45a2-bf47-4598e02d88f8" />
 <img width="3420" height="4048" alt="osiris_screenshot_20260608_223440" src="https://github.com/user-attachments/assets/615176f6-1ddf-4a3c-8482-bb07168f618d" />
 <img width="3271" height="3872" alt="osiris_screenshot_20260531_145827" src="https://github.com/user-attachments/assets/d919d41b-93e4-4b6a-97dc-8362976b331c" />
-
-
-
-<div align="center">
-
-🦀 Made with Rust • 🥽 Powered by OpenXR • ⚡ Rendered with wgpu
-
-</div>
