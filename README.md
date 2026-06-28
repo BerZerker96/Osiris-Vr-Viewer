@@ -47,6 +47,7 @@ It's a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@
 ## 🎮 Supported 3D Mods & Companion Tools
 
 Install the mod into your game as its own docs say, then let Osiris pick up the 3D image.
+[3D-Mod-Setup-Guide-1.pdf](https://github.com/user-attachments/files/29437218/3D-Mod-Setup-Guide-1.pdf)
 
 | Mod / Tool | Link | What it is |
 |---|---|---|
