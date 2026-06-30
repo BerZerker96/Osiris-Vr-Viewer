@@ -20,7 +20,7 @@
 
 **Osiris VR Viewer** takes a stereoscopic 3D image — from a `geo-11` / `Katanga` mod, the SuperDepth3D / Geo3D ReShade export, or any side-by-side / top-and-bottom source — and projects it into your headset on a curved screen, a sphere, a box theatre, or a fisheye dome. On top of that it adds a full image pipeline (sharpening, clarity, filtering), depth and parallax controls, and the ability to drive games with your head (mouse, gamepad, or 6DoF tracking output).
 
-It's a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@artumino](https://github.com/artumino), heavily extended, and runs on any wired OpenXR runtime (SteamVR, Oculus / Quest Link, Varjo, Pimax, etc.).
+It's a Rust fork of [VRScreenCap](https://github.com/artumino/VRScreenCap) by [@artumino](https://github.com/artumino), heavily extended, and runs on any OpenXR runtime (SteamVR, Oculus / Quest Link, Varjo, Pimax, etc.).
 
 **Two programs, no installer:**
 
@@ -71,7 +71,7 @@ Install the mod into your game as its own docs say, then let Osiris pick up the 
 
 Drop the two `.exe` files into one folder and run — there's no installer. You'll need:
 
-- **A wired VR headset on an OpenXR runtime.** Osiris streams a shared GPU texture straight into your headset, which needs a **wired** PCVR connection (DisplayPort / HDMI, or a USB Link cable).
+- **A VR headset on an OpenXR runtime.** Osiris streams a shared GPU texture straight into your headset. A **wired** PCVR connection (DisplayPort / HDMI, or a USB Link cable) is **recommended for the best experience**. **Wireless with Virtual Desktop does work**, but depending on your signal and Wi-Fi it may cause **encoding or tracking issues**.
 - **Windows 10 or 11 (64-bit).**
 - **An active OpenXR runtime** (SteamVR, Pimax OpenXR, Oculus, etc.). Osiris talks to your headset through it — set your preferred one as the active OpenXR runtime first (see [Runtimes](#-runtimes-openxr-vs-steamvr)). Any PCVR setup already has this.
 - **Up-to-date GPU drivers** (rendering uses Vulkan, included in current NVIDIA / AMD / Intel drivers). Developed and tested on an RTX 4080 + Pimax.
@@ -82,7 +82,7 @@ Drop the two `.exe` files into one folder and run — there's no installer. You'
 
 > ⚠️ **Run both `.exe` files as Administrator (recommended).** Right-click each → **Properties → Compatibility → "Run this program as an administrator"** (do it for **both** `osiris-vr-viewer.exe` and `osiris-gui.exe`). Windows blocks a normal-privilege program from sending input to a higher-privilege window, so without elevation the **global hotkeys**, **mouse emulation**, and **gamepad emulation** can silently fail to reach games that run elevated or grab input exclusively. Running elevated forces all three to work across **every** game, in **borderless *and* exclusive-fullscreen** alike.
 
-> ⚠️ **Wired only — no wireless streaming.** Osiris relies on a shared-GPU-texture path that wireless streaming does **not** expose, so it **will not work over Virtual Desktop (or other wireless/streamed runtimes)**. Use a wired headset on a native OpenXR or SteamVR OpenXR runtime.
+> ⚠️ **Wired is recommended.** For the best experience, use a **wired** PCVR connection (DisplayPort / HDMI, or a USB Link cable) on a native OpenXR or SteamVR OpenXR runtime. **Wireless with Virtual Desktop does work**, but depending on your Wi-Fi and signal strength it can cause **encoding artifacts or tracking issues** — if you run into those, a wired connection clears them up.
 
 ---
 
@@ -444,9 +444,9 @@ Most issues come down to the **OpenXR runtime**, the **3D source**, or a game's 
 - Your **headset is off or asleep**, or **no OpenXR runtime is active**. Power on the headset, start your runtime (native or SteamVR), set it as the active OpenXR runtime, then relaunch.
 - On a **fresh Windows install**, install the **[Microsoft Visual C++ Redistributable (x64)](https://aka.ms/vs/17/release/vc_redist.x64.exe)**.
 
-### 📡 Wireless / Virtual Desktop shows nothing
+### 📡 Wireless / Virtual Desktop — encoding or tracking issues
 
-- Osiris needs a **wired** headset and a shared-texture path that wireless streaming (e.g. Virtual Desktop) doesn't expose. Use a wired PCVR connection or USB Link cable with your headset's native or SteamVR OpenXR runtime (see [Requirements](#-requirements)).
+- **Wireless with Virtual Desktop does work**, but depending on your Wi-Fi and signal strength it can introduce **encoding artifacts** (compression, blur, or stutter) or **tracking issues**. **Wired is recommended for the best experience** — if you hit these problems, switch to a wired PCVR connection (DisplayPort / HDMI or a USB Link cable) on your headset's native or SteamVR OpenXR runtime (see [Requirements](#-requirements)).
 
 ### ⬛ Black screen / no image in VR
 
