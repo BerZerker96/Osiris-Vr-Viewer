@@ -6,6 +6,8 @@
 
 ### A full-resolution OpenXR 3D viewer made for Gaming with Stereoscopic 3D mods — curved screen geometry, head-tracking output, and a real-time tuning GUI.
 
+MAKE SURE TO READ THE PDF GUIDES , ONE IS A GLOSSARY FOR THE APP , THE OTHER IS A 3D MOD SETUP GUIDE
+
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D4?logo=windows&logoColor=white)](https://www.microsoft.com/windows)
 [![Built with Rust](https://img.shields.io/badge/built%20with-Rust-CE422B?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Graphics](https://img.shields.io/badge/wgpu-Vulkan-AC162C?logo=vulkan&logoColor=white)](https://wgpu.rs/)
