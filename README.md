@@ -417,21 +417,6 @@ If you get flicker / ATW drag on Pimax, try in order:
 
 **Tray menu:** Recenter, Screenshot, Toggle Head-Lock, Cycle Stereo Mode, Cycle Screen Shape, Quit.
 
-**Mouse emulation:** enable it, start with **Both**, switch to **Relative** if the game over-rotates or **Absolute** if it ignores Relative, then tune sensitivity/speed.
-
-**6DoF UDP (e.g. RE Requiem):** point the game's OpenTrack listener at `127.0.0.1:4242`, enable the UDP stream in the GUI, and flip any axis that points the wrong way.
-
-**TrackIR games (DCS, Elite, ETS2, Assetto, Everspace 2…):** do the one-time **[TrackIR setup](#-trackir-setup-one-time)** (build the bridge `NPClient64.dll` and place it for your game), then enable **TrackIR Game** in the 6DoF MODS section and turn on TrackIR / head-tracking in the game's own options. Turning the toggle on redirects the head pose away from the UDP stream. Flip any axis that points the wrong way with the same per-axis controls.
-
----
-
-## 📋 Tested
-
-- ✅ Runtimes: SteamVR / OpenXR, Oculus / Quest Link (wired), Varjo, Pimax
-- ✅ Mouse emulation: Skyrim VR (mod), Forza Horizon, Witcher 3 (HW cursor off — Absolute)
-- ✅ 6DoF UDP: RE Requiem mod, REFramework
-- ✅ Sources: geo-11 / Katanga (full-SBS), SuperDepth3D (checkerboard & VRExport SBS), Geo3D
-
 ---
 
 ## 🩺 Troubleshooting
