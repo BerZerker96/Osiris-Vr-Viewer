@@ -80,8 +80,7 @@ Install a mod into your game per its own docs, then let Osiris pick up the image
 
 <div align="center">
 
-<!-- ⬇️  GUI SCREENSHOT — replace the src below with your control-panel image  ⬇️ -->
-<img width="900" alt="Osiris VR Viewer — control panel GUI" src="docs/gui-screenshot.png" />
+<img width="2502" height="1592" alt="2026-07-14 15_49_37-OSIRIS VR VIEWER" src="https://github.com/user-attachments/assets/cefb62a2-f4f1-4075-bb55-95ef587c4650" />
 
 *The Osiris control panel*
 
@@ -205,5 +204,11 @@ A toggle + headset picker (in the header, left of Debug) that fixes **jitter and
 
 <img width="3420" height="4048" alt="Osiris screenshot" src="https://github.com/user-attachments/assets/0f3375a7-cc8b-4822-a780-ebfeaf618b65" width="45%" />
 <img width="3420" height="4048" alt="Osiris screenshot" src="https://github.com/user-attachments/assets/db22d488-5a47-4434-a025-2113cf873762" width="45%" />
+<img width="3271" height="3872" alt="osiris_screenshot_20260531_145648" src="https://github.com/user-attachments/assets/433f8ef2-4bd5-4841-8ac4-5c61b9ebe8b1" />
+<img width="3271" height="3872" alt="osiris_screenshot_20260531_144535" src="https://github.com/user-attachments/assets/0830dd9c-e505-46f6-ab2a-4ccb84b2e953" />
+<img width="3420" height="4048" alt="osiris_screenshot_20260608_223440" src="https://github.com/user-attachments/assets/3a9bdf0f-7ab5-445d-a31a-8584aca47b70" />
+<img width="3271" height="3872" alt="osiris_screenshot_20260531_145827" src="https://github.com/user-attachments/assets/65ebe1e2-48b0-4236-9150-b5f612d92ed8" />
+<img width="3420" height="4048" alt="osiris_screenshot_20260608_223635" src="https://github.com/user-attachments/assets/dae2a87b-a141-47a4-98ff-a4bccda71652" />
+
 
 </div>
