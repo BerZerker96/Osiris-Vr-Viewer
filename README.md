@@ -19,6 +19,9 @@ Projects 3D-mod output onto a curved screen, sphere, box theatre, or fisheye dom
 
 ---
 
+<img width="4764" height="2904" alt="Gemini_Generated_Image_4fhcem4fhcem4fhc" src="https://github.com/user-attachments/assets/be3a6abc-52d9-45ce-9b1d-4dcc859a425a" />
+
+
 ## What it is
 
 Osiris takes a stereoscopic 3D image — from a **geo-11 / Katanga** mod, a **SuperDepth3D / Geo3D** export, or any **SBS / TAB** source — and displays it in your headset on a curved screen. It adds sharpening/clarity/filtering, depth and parallax controls, and can drive games with your head (mouse, gamepad, or 6DoF output).
